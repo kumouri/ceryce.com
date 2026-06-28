@@ -1,0 +1,83 @@
+---
+interface Props {
+  text: string;
+  as?: 'h1' | 'h2' | 'h3';
+  class?: string;
+}
+
+const { text, as: Tag = 'h2', class: className = '' }: Props = Astro.props;
+---
+
+<Tag class:list={['glitch', className]} data-text={text}>{text}</Tag>
+
+<style>
+  .glitch {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Glitch layers only paint on hover/focus, and never under reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      clip-path: inset(0 0 0 0);
+    }
+
+    .glitch::before {
+      color: var(--kumouri-purple);
+      transform: translate(-2px, 0);
+    }
+
+    .glitch::after {
+      color: var(--toxic-green);
+      transform: translate(2px, 0);
+    }
+
+    .glitch:hover::before,
+    .glitch:focus-visible::before {
+      animation: glitch-a 0.5s steps(2, end) 1;
+    }
+
+    .glitch:hover::after,
+    .glitch:focus-visible::after {
+      animation: glitch-b 0.5s steps(2, end) 1;
+    }
+  }
+
+  @keyframes glitch-a {
+    0% {
+      opacity: 0.9;
+      clip-path: inset(0 0 72% 0);
+      transform: translate(-3px, -1px);
+    }
+    40% {
+      clip-path: inset(58% 0 12% 0);
+      transform: translate(2px, 1px);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes glitch-b {
+    0% {
+      opacity: 0.9;
+      clip-path: inset(60% 0 8% 0);
+      transform: translate(3px, 1px);
+    }
+    45% {
+      clip-path: inset(12% 0 66% 0);
+      transform: translate(-2px, -1px);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(0, 0);
+    }
+  }
+</style>

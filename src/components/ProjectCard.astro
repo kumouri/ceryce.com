@@ -1,0 +1,107 @@
+---
+interface Props {
+  title: string;
+  blurb: string;
+  tags?: string[];
+  href?: string;
+  status?: string;
+}
+
+const { title, blurb, tags = [], href, status } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag class="card project" href={href} {...href ? { rel: 'noopener' } : {}}>
+  <div class="project-head">
+    <h3>{title}</h3>
+    {status && <span class="project-status">{status}</span>}
+  </div>
+  <p class="project-blurb">{blurb}</p>
+  {
+    tags.length > 0 && (
+      <ul class="project-tags">
+        {tags.map((t) => (
+          <li>{t}</li>
+        ))}
+      </ul>
+    )
+  }
+  {href && <span class="project-arrow" aria-hidden="true">→</span>}
+</Tag>
+
+<style>
+  .project {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+  }
+
+  a.project:hover {
+    color: inherit;
+    text-shadow: none;
+  }
+
+  .project-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .project h3 {
+    color: var(--text);
+  }
+
+  a.project:hover h3 {
+    color: var(--toxic-green);
+  }
+
+  .project-status {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--purple-soft);
+    border: 1px solid color-mix(in srgb, var(--kumouri-purple) 45%, transparent);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+  }
+
+  .project-blurb {
+    color: var(--text-muted);
+    font-size: 1rem;
+    flex: 1;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .project-tags li {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    background: var(--surface-2);
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .project-arrow {
+    color: var(--toxic-green);
+    font-size: 1.1rem;
+    transition: transform var(--dur) var(--ease);
+  }
+
+  a.project:hover .project-arrow {
+    transform: translateX(4px);
+  }
+</style>

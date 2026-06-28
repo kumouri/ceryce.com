@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GlitchHeading from '../components/GlitchHeading.astro';
+
+const values = [
+  ['Signal over noise', 'I would rather hand you three things that matter than ten that do not.'],
+  ['Build it to be read', 'Code, docs, systems — optimized for the next human, including future me.'],
+  ['Curiosity as a method', 'I learn by taking things apart. The AI work is just the latest thing I could not leave alone.'],
+  ['Honesty about limits', 'Systems fail. The good ones fail safely and tell you the truth about it.'],
+];
+---
+
+<BaseLayout
+  title="About"
+  description="About Ceryce Armstrong — Autistic Trans Woman with ADHD, software engineer of 10+ years with a passion for AI architecture and engineering."
+>
+  <section class="about">
+    <div class="container about-inner">
+      <p class="eyebrow">// about me</p>
+      <GlitchHeading as="h1" text="Hi, I'm Ceryce." />
+
+      <div class="about-body">
+        <p class="lead">
+          I'm a software engineer with <strong>over a decade</strong> of experience, and these days I'm
+          pouring that energy into <strong>AI architecture and engineering</strong> — figuring out how
+          models, tools, and memory come together into things that are genuinely useful.
+        </p>
+
+        <p>
+          I'm an <strong>Autistic Trans Woman with ADHD</strong> (she/her). That's not a footnote — it's
+          a lot of how I think. Pattern-matching, deep focus on the problems that grab me, an allergy to
+          things that are needlessly complicated: that wiring is exactly what makes me good at this work.
+          I lead with clarity, I sweat the details that matter, and I am unbothered by the ones that
+          don't.
+        </p>
+
+        <p>
+          My name is pronounced <em>"Cerise,"</em> like the color — always written <em>Ceryce</em>. I've
+          spent years in the unglamorous middle of software: backends and services, the glue and the
+          plumbing, the systems that have to keep working when no one is watching. Lately I've been
+          building assistants and automations in the open, because the fastest way for me to understand
+          something is to build it.
+        </p>
+
+        <p>
+          If you want the structured version, my <a href="/resume/">résumé</a> lays out the work, and my
+          <a href="/portfolio/">portfolio</a> shows a few of the things I've made.
+        </p>
+      </div>
+
+      <div class="values">
+        <p class="eyebrow">// how i work</p>
+        <ul class="values-grid">
+          {
+            values.map(([title, body]) => (
+              <li class="card value-card">
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-inner {
+    max-width: var(--max-w-prose);
+  }
+
+  .about-body {
+    margin-top: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    color: var(--text-muted);
+  }
+
+  .about-body strong {
+    color: var(--toxic-green);
+  }
+
+  .about-body em {
+    color: var(--purple-soft);
+    font-style: normal;
+  }
+
+  .values {
+    margin-top: 3.5rem;
+    max-width: none;
+  }
+
+  .values-grid {
+    margin-top: 1.5rem;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.25rem;
+  }
+
+  .value-card h3 {
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+
+  .value-card p {
+    color: var(--text-muted);
+    font-size: 1rem;
+  }
+</style>

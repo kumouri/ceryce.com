@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Ceryce Armstrong — software engineer, AI architect">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c0916"/>
+      <stop offset="1" stop-color="#08070e"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="80%" cy="0%" r="70%">
+      <stop offset="0" stop-color="#8e00ff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#8e00ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="name" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#c79bff"/>
+      <stop offset="1" stop-color="#00ff0f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- grid -->
+  <g stroke="#8e00ff" stroke-opacity="0.08">
+    <path d="M0 80 H1200 M0 160 H1200 M0 240 H1200 M0 320 H1200 M0 400 H1200 M0 480 H1200 M0 560 H1200"/>
+    <path d="M80 0 V630 M160 0 V630 M240 0 V630 M320 0 V630 M400 0 V630 M480 0 V630 M560 0 V630 M640 0 V630 M720 0 V630 M800 0 V630 M880 0 V630 M960 0 V630 M1040 0 V630 M1120 0 V630"/>
+  </g>
+
+  <text x="90" y="250" font-family="'JetBrains Mono',monospace" font-size="26" letter-spacing="3" fill="#00ff0f">// SOFTWARE ENGINEER · AI ARCHITECT</text>
+  <text x="86" y="360" font-family="'Space Grotesk','Inter',sans-serif" font-size="104" font-weight="700" fill="url(#name)">Ceryce Armstrong</text>
+  <text x="90" y="430" font-family="'Inter',sans-serif" font-size="34" fill="#a39fb8">Building systems — and the intelligence inside them.</text>
+
+  <g font-family="'JetBrains Mono',monospace" font-size="26" font-weight="700">
+    <text x="90" y="545" fill="#8e00ff">&gt;</text>
+    <text x="116" y="545" fill="#ededf4">ceryce</text>
+    <text x="232" y="545" fill="#00ff0f">_</text>
+    <text x="1110" y="545" text-anchor="end" fill="#6c6685">ceryce.com</text>
+  </g>
+</svg>

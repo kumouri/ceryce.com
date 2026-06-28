@@ -1,0 +1,100 @@
+---
+const year = new Date().getFullYear();
+const legal = [
+  { href: '/privacy/', label: 'Privacy' },
+  { href: '/terms/', label: 'Terms' },
+];
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="footer-mark"><span class="p">&gt;</span>ceryce<span class="g">_</span></span>
+      <p class="footer-tag">Building systems &amp; the intelligence inside them.</p>
+    </div>
+
+    <nav class="footer-links" aria-label="Footer">
+      <a href="mailto:contact@ceryce.com">contact@ceryce.com</a>
+      {legal.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+  </div>
+
+  <div class="container footer-base">
+    <span>© {year} Ceryce Armstrong. All rights reserved.</span>
+    <span class="footer-built">she/her · built with Astro on Cloudflare</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    margin-top: 4rem;
+    padding-block: 2.5rem 1.75rem;
+    background: color-mix(in srgb, var(--bg) 60%, #000);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+    justify-content: space-between;
+    align-items: start;
+  }
+
+  .footer-mark {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text);
+  }
+
+  .footer-mark .p {
+    color: var(--kumouri-purple);
+  }
+
+  .footer-mark .g {
+    color: var(--toxic-green);
+  }
+
+  .footer-tag {
+    margin-top: 0.4rem;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    max-width: 28ch;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+
+  .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .footer-links a:hover {
+    color: var(--toxic-green);
+  }
+
+  .footer-base {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    justify-content: space-between;
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.825rem;
+  }
+
+  .footer-built {
+    font-family: var(--font-mono);
+  }
+</style>

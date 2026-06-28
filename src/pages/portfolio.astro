@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GlitchHeading from '../components/GlitchHeading.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+/*
+  Portfolio entries. These are placeholders to be replaced with Ceryce's real,
+  publishable projects. Add/edit objects below — `href` is optional (omit for
+  not-yet-public work). Keep blurbs to a sentence or two.
+*/
+type Project = {
+  title: string;
+  blurb: string;
+  tags?: string[];
+  status?: string;
+  href?: string;
+};
+
+const projects: Project[] = [
+  {
+    title: 'Project one',
+    blurb:
+      'A short, plain-language description of what it does and why it mattered. Swap this card for something real.',
+    tags: ['TypeScript', 'Systems'],
+    status: 'Placeholder',
+  },
+  {
+    title: 'Project two',
+    blurb:
+      'Another representative project. Lead with the outcome, then the interesting technical wrinkle.',
+    tags: ['AI', 'Agents'],
+    status: 'Placeholder',
+  },
+  {
+    title: 'Project three',
+    blurb: 'A smaller tool or experiment. Side projects count — they show how you think.',
+    tags: ['Tooling'],
+    status: 'Placeholder',
+  },
+];
+---
+
+<BaseLayout
+  title="Portfolio"
+  description="Selected work by Ceryce Armstrong — software engineering and AI projects."
+>
+  <section class="portfolio">
+    <div class="container">
+      <p class="eyebrow">// selected work</p>
+      <GlitchHeading as="h1" text="Portfolio" />
+      <p class="lead portfolio-lead">
+        A few of the things I've built. This is a living page — more is on the way as I clear projects
+        for sharing.
+      </p>
+
+      <div class="portfolio-grid">
+        {
+          projects.map((p) => (
+            <ProjectCard
+              title={p.title}
+              blurb={p.blurb}
+              tags={p.tags}
+              status={p.status}
+              href={p.href}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .portfolio-lead {
+    margin-top: 1.25rem;
+  }
+
+  .portfolio-grid {
+    margin-top: 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: 1.25rem;
+  }
+</style>

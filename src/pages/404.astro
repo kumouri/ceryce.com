@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GlitchHeading from '../components/GlitchHeading.astro';
+---
+
+<BaseLayout title="404 — Not found" description="That page doesn't exist on ceryce.com.">
+  <section class="notfound">
+    <div class="container">
+      <p class="eyebrow">// error 404</p>
+      <GlitchHeading as="h1" text="404" class="big" />
+      <p class="lead">
+        That page slipped through a crack in the matrix. The link is broken or the page never existed.
+      </p>
+      <div class="nf-cta">
+        <a class="btn btn-primary" href="/">Back home</a>
+        <a class="btn btn-ghost" href="/portfolio/">See the work</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    padding-block: clamp(5rem, 16vh, 10rem);
+  }
+
+  .big {
+    font-size: clamp(5rem, 22vw, 12rem);
+    line-height: 0.9;
+  }
+
+  .nf-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 2rem;
+  }
+</style>

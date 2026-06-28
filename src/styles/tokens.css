@@ -1,0 +1,67 @@
+/*
+  Design tokens — Ceryce Armstrong's personal brand.
+  Neon-cyberpunk system built on the two canonical brand colors.
+  See BRAND.md for usage + accessibility rules.
+*/
+:root {
+  /* ---- Brand (canonical) ---- */
+  --kumouri-purple: #8e00ff; /* primary */
+  --toxic-green: #00ff0f; /* offset / accent */
+
+  /* ---- Brand derivatives ---- */
+  --purple-bright: #a94dff;
+  --purple-soft: #c79bff;
+  --purple-deep: #4d0088;
+  --green-bright: #5bff64;
+  --green-dim: #00c70c;
+  --green-deep: #007a08;
+
+  /* ---- Neutrals (dark, faintly purple) ---- */
+  --bg: #0a0810;
+  --bg-grad-1: #0c0916;
+  --bg-grad-2: #08070e;
+  --surface: #141020;
+  --surface-2: #1b1630;
+  --border: #2a2442;
+  --border-bright: #3d345e;
+
+  /* ---- Text ---- */
+  --text: #ededf4;
+  --text-muted: #a39fb8;
+  --text-dim: #6c6685;
+
+  /* ---- Semantic ---- */
+  --accent: var(--kumouri-purple);
+  --link: var(--toxic-green);
+  --link-hover: var(--green-bright);
+  --focus: var(--toxic-green);
+
+  /* ---- Glows ---- */
+  --glow-purple: 0 0 0.75rem rgba(142, 0, 255, 0.55), 0 0 2rem rgba(142, 0, 255, 0.25);
+  --glow-green: 0 0 0.6rem rgba(0, 255, 15, 0.55), 0 0 1.75rem rgba(0, 255, 15, 0.2);
+  --text-glow-green: 0 0 0.5rem rgba(0, 255, 15, 0.45);
+  --text-glow-purple: 0 0 0.6rem rgba(169, 77, 255, 0.5);
+
+  /* ---- Typography ---- */
+  --font-display: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter Variable', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+
+  --fs-eyebrow: 0.8125rem;
+  --fs-body: 1.0625rem;
+  --fs-lead: 1.25rem;
+  --lh-body: 1.7;
+
+  /* ---- Layout ---- */
+  --max-w: 72rem;
+  --max-w-prose: 44rem;
+  --gutter: clamp(1.25rem, 5vw, 3rem);
+  --radius: 6px;
+  --radius-lg: 12px;
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 0.35s;
+
+  color-scheme: dark;
+}

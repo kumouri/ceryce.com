@@ -1,0 +1,21 @@
+# Cloudflare Workers static-assets deploy for ceryce.com.
+# A static site today; structured so a future SSR upgrade (blog/admin) only adds a `main` entry.
+name = "ceryce-com"
+compatibility_date = "2025-06-01"
+
+[assets]
+directory = "./dist"
+# /about/ -> about/index.html ; unknown paths -> the generated 404 page.
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
+
+# Custom domains. Cloudflare provisions the proxied DNS records for these automatically
+# on deploy (and errors rather than clobbering if a conflicting record already exists).
+# Account ID + API token are supplied by CI secrets, never committed.
+[[routes]]
+pattern = "ceryce.com"
+custom_domain = true
+
+[[routes]]
+pattern = "www.ceryce.com"
+custom_domain = true
