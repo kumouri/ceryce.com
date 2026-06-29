@@ -1,12 +1,11 @@
 ---
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+export const prerender = true; // Static marketing page, rendered from /legal at build time.
 import { marked } from 'marked';
 import BaseLayout from '../layouts/BaseLayout.astro';
-
 // Canonical source of truth lives in /legal — render HTML from it, never hand-edit HTML.
-// Resolved from the project root (stable during `astro build` and `astro dev`).
-const source = readFileSync(join(process.cwd(), 'legal', 'terms-and-conditions.md'), 'utf-8');
+// Imported with Vite's `?raw` so the markdown is inlined at build time (no node:fs,
+// which the Cloudflare adapter's prerender runtime can't load).
+import source from '../../legal/terms-and-conditions.md?raw';
 
 // Strip the leading internal-notes HTML comment, then fill the governing-law state.
 const cleaned = source

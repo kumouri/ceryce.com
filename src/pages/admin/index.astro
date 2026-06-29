@@ -1,0 +1,86 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+
+// Server-rendered: NO `export const prerender` here. This route runs on the Worker
+// so Cloudflare Access (Phase 2) can gate it and the Margo dashboard (Phase 3+) can
+// read live state. The marketing pages stay static via their own `prerender = true`.
+
+// Phase 2 will populate this from the verified Cloudflare Access identity
+// (Astro.locals.user). For now it's a placeholder so we can prove SSR end-to-end.
+const user = Astro.locals.user?.email;
+---
+
+<AdminLayout title="Overview" user={user}>
+  <p class="eyebrow">Margo · admin</p>
+  <h1>Dashboard</h1>
+  <p class="lede">
+    This is the server-rendered admin shell. Cloudflare Access guards it at the edge;
+    the Margo control plane and live views land in the next phases.
+  </p>
+
+  <section class="panel" aria-label="Status">
+    <h2>Pipeline status</h2>
+    <ul class="status-list">
+      <li><span class="k">Rendering</span><span class="v ok">server-side (SSR) ✓</span></li>
+      <li><span class="k">Edge auth</span><span class="v todo">Cloudflare Access — Phase 2</span></li>
+      <li><span class="k">Control plane</span><span class="v todo">margo-control Worker — Phase 3</span></li>
+      <li><span class="k">Runner</span><span class="v todo">Agent SDK (Windows service) — Phase 4</span></li>
+    </ul>
+  </section>
+
+  <style>
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: var(--fs-eyebrow);
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 0.5rem;
+    }
+    h1 {
+      font-family: var(--font-display);
+      /* Large display text may use purple per BRAND.md contrast rules. */
+      color: var(--kumouri-purple);
+      margin: 0 0 0.75rem;
+    }
+    .lede {
+      color: var(--text-muted);
+      max-width: var(--max-w-prose);
+      font-size: var(--fs-lead);
+    }
+    .panel {
+      margin-top: 2rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      padding: 1.25rem 1.5rem;
+    }
+    .panel h2 {
+      font-family: var(--font-mono);
+      font-size: var(--fs-eyebrow);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin: 0 0 1rem;
+    }
+    .status-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+    }
+    .status-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    /* Small text → high-contrast tokens only (never purple). */
+    .status-list .k { color: var(--text-muted); }
+    .status-list .v.ok { color: var(--toxic-green); }
+    .status-list .v.todo { color: var(--text-dim); }
+  </style>
+</AdminLayout>

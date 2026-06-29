@@ -6,9 +6,10 @@ to Cloudflare.
 
 ## Stack
 
-- **Astro** (static output) — fast, near-zero client JS.
+- **Astro** (hybrid) — marketing pages are prerendered static HTML; `/admin/**` is server-rendered on
+  the Worker via `@astrojs/cloudflare`. Near-zero client JS.
 - **Self-hosted fonts** via Fontsource — no third-party requests.
-- **Cloudflare Workers static assets** for hosting, **GitHub Actions** for CI + deploy.
+- **Cloudflare Workers** for hosting (static assets + SSR Worker), **GitHub Actions** for CI + deploy.
 
 ## Develop
 
@@ -26,8 +27,10 @@ Requires Node 18.20.8+, 20.3+, or 22+.
 
 | Path | What |
 | --- | --- |
-| `src/pages/` | One file per route: `index`, `about`, `portfolio`, `resume`, `privacy`, `terms`. |
-| `src/layouts/BaseLayout.astro` | Shared shell — head, nav, footer, theme. |
+| `src/pages/` | One file per route: `index`, `about`, `portfolio`, `resume`, `privacy`, `terms` (all prerendered). |
+| `src/pages/admin/` | Server-rendered admin section (Margo dashboard) — gated by Cloudflare Access. |
+| `src/layouts/BaseLayout.astro` | Shared marketing shell — head, nav, footer, theme. |
+| `src/layouts/AdminLayout.astro` | Admin shell — own nav, `noindex`; never the public chrome. |
 | `src/components/` | `Nav`, `Footer`, `GlitchHeading`, `ProjectCard`. |
 | `src/styles/` | `tokens.css` (brand variables) + `global.css`. |
 | `legal/` | **Canonical** Privacy + Terms Markdown. The pages render HTML from these — never hand-edit HTML. |
@@ -44,13 +47,16 @@ Requires Node 18.20.8+, 20.3+, or 22+.
 ## Deploy
 
 CI builds and typechecks every push/PR. Pushes to `main` deploy to Cloudflare via Wrangler, using the
-`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets. See
-[`.github/workflows/ci.yml`](.github/workflows/ci.yml) and [`wrangler.toml`](wrangler.toml).
+`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets. The deploy targets the
+adapter-generated `dist/server/wrangler.json` (produced by `astro build`), not the root `wrangler.toml`.
+See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) and [`wrangler.toml`](wrangler.toml).
 
 ## Roadmap
 
-A blog with a login + admin console is planned. It will move the site to Astro SSR on Cloudflare with
-posts in **D1** and admin auth via **Zitadel** — an additive upgrade, not a rewrite.
+The **`/admin` section is in progress**: a dashboard to observe, approve, trigger, and tune **Margo**
+(Ceryce's chief-of-staff assistant). It runs as Astro SSR on Cloudflare, gated by **Cloudflare Access**,
+backed by a `margo-control` Worker + D1 control plane and a local Claude Agent SDK runner. A blog with
+posts in **D1** is still planned. Full phasing lives in the admin roadmap plan.
 
 ---
 

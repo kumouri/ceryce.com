@@ -1,0 +1,126 @@
+---
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/inter';
+import '@fontsource-variable/jetbrains-mono';
+import '../styles/global.css';
+
+// Admin shell for the Margo dashboard. Server-rendered (no `prerender`), gated by
+// Cloudflare Access at the edge + src/middleware.ts (Phase 2). Deliberately NOT
+// BaseLayout: the admin section has its own nav and must never be indexed or
+// surfaced in the public site chrome.
+interface Props {
+  title: string;
+  /** The verified Access identity, passed through for the header. */
+  user?: string;
+}
+
+const { title, user } = Astro.props;
+const fullTitle = `${title} · Margo admin`;
+
+const navLinks = [
+  ['Overview', '/admin/'],
+  ['Approvals', '/admin/approvals/'],
+  ['Trigger', '/admin/trigger/'],
+  ['Autonomy', '/admin/autonomy/'],
+];
+const here = Astro.url.pathname.replace(/\/+$/, '') || '/admin';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <!-- Private surface: never index, never follow. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0a0810" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="admin-bar">
+      <div class="admin-bar__inner">
+        <a class="admin-wordmark" href="/admin/">
+          <span class="admin-wordmark__prompt">&gt;</span>margo<span class="admin-wordmark__caret">_</span>
+        </a>
+        <nav class="admin-nav" aria-label="Admin">
+          {
+            navLinks.map(([label, href]) => {
+              const target = href.replace(/\/+$/, '') || '/admin';
+              const isActive = here === target;
+              return (
+                <a href={href} aria-current={isActive ? 'page' : undefined} class={isActive ? 'is-active' : undefined}>
+                  {label}
+                </a>
+              );
+            })
+          }
+        </nav>
+        {user && <span class="admin-user" title="Signed in via Cloudflare Access">{user}</span>}
+      </div>
+    </header>
+    <main id="main" class="admin-main">
+      <slot />
+    </main>
+
+    <style>
+      .admin-bar {
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .admin-bar__inner {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 0.75rem var(--gutter);
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+      .admin-wordmark {
+        font-family: var(--font-mono);
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--text);
+        text-decoration: none;
+        letter-spacing: -0.01em;
+      }
+      /* Purple is allowed on the large wordmark glyph; small text stays high-contrast. */
+      .admin-wordmark__prompt { color: var(--kumouri-purple); }
+      .admin-wordmark__caret { color: var(--toxic-green); }
+      .admin-nav {
+        display: flex;
+        gap: 1.25rem;
+        font-family: var(--font-mono);
+        font-size: var(--fs-eyebrow);
+      }
+      .admin-nav a {
+        color: var(--text-muted);
+        text-decoration: none;
+      }
+      .admin-nav a:hover,
+      .admin-nav a:focus-visible {
+        color: var(--toxic-green);
+      }
+      .admin-nav a.is-active {
+        color: var(--toxic-green);
+      }
+      .admin-user {
+        margin-left: auto;
+        font-family: var(--font-mono);
+        font-size: var(--fs-eyebrow);
+        color: var(--text-dim);
+      }
+      .admin-main {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: clamp(1.5rem, 4vw, 3rem) var(--gutter) 4rem;
+      }
+    </style>
+  </body>
+</html>
