@@ -19,6 +19,13 @@ Use those pronouns everywhere. Brand palette: **Kumouri Purple `#8e00ff`** (prim
   page substitutes the governing-law state (**Illinois**). Edit the `.md`, never the rendered HTML.
 - **Hybrid rendering.** Every marketing page declares `export const prerender = true` so it stays static;
   routes under `src/pages/admin/**` omit it and run on the Worker. Keep new public pages prerendered.
+- **Admin auth gate.** `src/middleware.ts` gates `/admin/**`: in the deployed Worker it re-verifies the
+  Cloudflare Access JWT (`src/lib/access.ts`, via `jose` against the team JWKS) and fails **closed** (403)
+  — defense in depth behind edge Access. Under `astro dev` (no Access) it bypasses with `DEV_ADMIN_EMAIL`.
+  Worker vars/secrets are read via `import { env } from 'cloudflare:workers'` (Astro v6 removed
+  `Astro.locals.runtime.env`); the verified email is on `Astro.locals.user`. Config: `.dev.vars` locally
+  (see `.dev.vars.example`), Worker secrets in prod — `ACCESS_TEAM_DOMAIN` + `ACCESS_AUD` must be set for
+  the prod gate to admit anyone.
 - **Brand contrast rule:** Toxic Green carries body text on the dark base; Kumouri Purple is for large
   text, borders, fills, and glow only (it fails small-text contrast). All motion is gated behind
   `prefers-reduced-motion`. See [BRAND.md](BRAND.md).
