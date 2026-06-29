@@ -1,8 +1,6 @@
 <!--
   Terms & Conditions — canonical source (Markdown). Render HTML from this; don't hand-edit the HTML.
-  TODO before publishing:
-   - Set the governing-law state in "Governing law" (placeholder [STATE] below).
-   - Confirm contact address (contact@ceryce.com) exists / is aliased to a real inbox.
+  NOTE: governing law = Illinois; contact@ceryce.com is a live catch-all to the owner's inbox (confirmed 2026-06-28).
    - Solid, A2P-compliant template, not legal advice. For anything beyond personal use, have counsel review.
   A2P NOTE: the "SMS / Text Messaging Terms" section contains the program description, frequency,
   rates, and STOP/HELP language carriers look for. Keep it intact and matching your campaign registration.
@@ -34,7 +32,9 @@ does not represent any other person or organization.
 
 - **Program.** By texting a number I operate, or by providing your mobile number to receive messages,
   you may receive text messages from my personal assistant to screen, acknowledge, or relay
-  communications, and to send you notifications you've asked for.
+  communications, and to send you notifications you've asked for. If you are the account owner who has
+  configured your own number, this includes the transactional alerts you set up — screened-call
+  verdicts, transcribed voicemails, and an optional daily schedule digest.
 - **Consent.** I send texts only to people who have contacted me first or who have given consent. I do
   not send marketing or promotional texts.
 - **Message frequency.** Varies and is conversational (messages are sent in response to your activity).
@@ -71,7 +71,7 @@ Services.
 
 ## Governing law
 
-These Terms are governed by the laws of the State of **[STATE]**, United States, without regard to its
+These Terms are governed by the laws of the State of **Illinois**, United States, without regard to its
 conflict-of-laws rules.
 
 ## Changes to these Terms

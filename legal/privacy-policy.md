@@ -1,8 +1,6 @@
 <!--
   Privacy Policy — canonical source (Markdown). Render HTML from this; don't hand-edit the HTML.
-  TODO before publishing:
-   - Confirm contact address (contact@ceryce.com) exists / is aliased to a real inbox.
-   - Confirm governing state in the Terms (kept out of the privacy policy).
+  NOTE: contact@ceryce.com is a live catch-all delivering to the owner's inbox (confirmed 2026-06-28).
    - These are solid, A2P-compliant templates, not legal advice. For anything beyond personal use, have counsel review.
   A2P NOTE: the "Text Messaging (SMS)" section below contains the carrier-required statement that mobile/
   SMS opt-in data is never shared with third parties for marketing. Keep that section intact.
@@ -47,6 +45,11 @@ If you exchange text messages with a number I operate, the Margo assistant may r
 your message. Message frequency varies and is conversational. **Message and data rates may apply.** You
 can opt out at any time by replying **STOP**, and get help by replying **HELP**. See the
 [Terms & Conditions](https://ceryce.com/terms) for the full messaging terms.
+
+If you are the account owner and have configured your own mobile number to receive notifications, you
+may also receive transactional alerts you set up — a short verdict after each screened call, transcribed
+voicemails, and an optional daily schedule digest. These are operational messages to you (not marketing),
+sent only to the number you verified in your own configuration.
 
 **No mobile information (including phone numbers and SMS/text-messaging opt-in or consent data) will be
 sold, rented, or shared with any third parties or affiliates for their marketing or promotional
