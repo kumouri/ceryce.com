@@ -1,0 +1,18 @@
+# Local dev vars for the /admin section. Copy to `.dev.vars` (gitignored) and fill in.
+# In production these are set as Cloudflare Worker secrets/vars, NOT committed.
+# `wrangler dev` and the @astrojs/cloudflare platform proxy load `.dev.vars` automatically.
+
+# --- Phase 2: Cloudflare Access (admin auth) ---
+# Your Zero Trust team domain (no scheme) and the Access application's AUD tag.
+# Only used by the deployed Worker — `astro dev` bypasses Access with DEV_ADMIN_EMAIL.
+ACCESS_TEAM_DOMAIN=ceryce.cloudflareaccess.com
+ACCESS_AUD=
+
+# Stand-in identity for the /admin gate under `astro dev` (no Access locally).
+DEV_ADMIN_EMAIL=ceryce.c.armstrong@gmail.com
+
+# --- Phase 3+: margo-control upstream (not used yet) ---
+# CONTROL_PLANE_URL=https://margo-control.<account>.workers.dev
+# CF_ACCESS_CLIENT_ID=
+# CF_ACCESS_CLIENT_SECRET=
+# DASH_API_SECRET=
