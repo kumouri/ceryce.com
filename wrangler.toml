@@ -1,9 +1,16 @@
-# Cloudflare Workers static-assets deploy for ceryce.com.
-# A static site today; structured so a future SSR upgrade (blog/admin) only adds a `main` entry.
+# Cloudflare Workers config for ceryce.com — now a hybrid Astro app:
+# marketing pages are prerendered static HTML; /admin/** is server-rendered on the Worker.
+#
+# This file is the *user config* the @astrojs/cloudflare adapter reads at build time.
+# The adapter resolves the real Worker entry + asset dir into `dist/server/wrangler.json`
+# (main = dist/server/entry.mjs, assets = dist/client). DEPLOY WITH THAT GENERATED CONFIG:
+#   wrangler deploy --config dist/server/wrangler.json   (run after `astro build`)
+# Bindings/secrets added here (D1, vars) flow into the generated config automatically.
 name = "ceryce-com"
 compatibility_date = "2025-06-01"
 
 [assets]
+# `directory` is overridden to ./dist/client by the adapter; these handlers are honored.
 directory = "./dist"
 # /about/ -> about/index.html ; unknown paths -> the generated 404 page.
 html_handling = "auto-trailing-slash"
