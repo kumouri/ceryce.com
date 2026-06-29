@@ -1,0 +1,127 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getAutonomy, setAutonomy, ControlPlaneUnavailable, type AutonomyConfig, type AutonomyLevel } from '../../lib/controlPlane';
+
+const user = Astro.locals.user?.email ?? 'admin';
+const LEVELS: AutonomyLevel[] = ['ask-high', 'act-low'];
+const KEYS = ['send', 'respond', 'trackerWrites'] as const;
+
+let flash: string | null = null;
+let flashKind: 'ok' | 'danger' = 'ok';
+
+// On save, overlay form values onto the current config (preserve version + graduationLog).
+if (Astro.request.method === 'POST') {
+  try {
+    const current = await getAutonomy();
+    const form = await Astro.request.formData();
+    const next: AutonomyConfig = {
+      ...current,
+      globalMode: form.get('global') === 'act-low' ? 'act-low' : 'ask-high',
+      channels: {},
+    };
+    for (const [ch, dials] of Object.entries(current.channels)) {
+      const updated: Record<string, AutonomyLevel> = {};
+      for (const key of KEYS) {
+        if (dials[key] !== undefined) {
+          updated[key] = form.get(`${ch}.${key}`) === 'act-low' ? 'act-low' : 'ask-high';
+        }
+      }
+      next.channels[ch] = updated;
+    }
+    await setAutonomy(next);
+    return Astro.redirect('/admin/autonomy/?saved=1');
+  } catch (err) {
+    flash = err instanceof ControlPlaneUnavailable ? 'Control plane not configured yet.' : `Save failed: ${(err as Error).message}`;
+    flashKind = 'danger';
+  }
+}
+const saved = Astro.url.searchParams.get('saved');
+
+let config: AutonomyConfig | null = null;
+let unconfigured = false;
+let error: string | null = null;
+try {
+  config = await getAutonomy();
+} catch (err) {
+  if (err instanceof ControlPlaneUnavailable) unconfigured = true;
+  else error = (err as Error).message;
+}
+---
+
+<AdminLayout title="Autonomy" user={user}>
+  <p class="eyebrow">Margo · admin</p>
+  <h1>Autonomy dial</h1>
+  <p class="lede"><strong>ask-high</strong> = Margo drafts and holds for you. <strong>act-low</strong> = Margo acts on her own.
+    Outbound/destructive actions should stay ask-high. See the policy in <code>autonomy-policy.md</code>.</p>
+
+  {saved && <p class="flash ok">Saved — the runner reads this on its next run.</p>}
+  {flash && <p class={`flash ${flashKind}`}>{flash}</p>}
+  {unconfigured && <div class="panel warn-panel"><p>Control plane not configured yet.</p></div>}
+  {error && <div class="panel danger-panel"><p class="mono">{error}</p></div>}
+
+  {config && (
+    <form method="POST">
+      <div class="row global">
+        <label for="global">Global mode</label>
+        <select id="global" name="global">
+          {LEVELS.map((l) => <option value={l} selected={config.globalMode === l}>{l}</option>)}
+        </select>
+      </div>
+
+      <table class="dials">
+        <thead><tr><th scope="col">Channel</th>{KEYS.map((k) => <th scope="col">{k}</th>)}</tr></thead>
+        <tbody>
+          {Object.entries(config.channels).map(([ch, dials]) => (
+            <tr>
+              <th scope="row" class="mono">{ch}</th>
+              {KEYS.map((key) => (
+                <td>
+                  {dials[key] === undefined ? <span class="na">—</span> : (
+                    <select name={`${ch}.${key}`} aria-label={`${ch} ${key}`}>
+                      {LEVELS.map((l) => <option value={l} selected={dials[key] === l}>{l}</option>)}
+                    </select>
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <button class="btn" type="submit">Save dial</button>
+    </form>
+  )}
+
+  {config?.graduationLog && config.graduationLog.length > 0 && (
+    <section class="panel">
+      <h2>Graduation log</h2>
+      <ul class="grad">
+        {config.graduationLog.map((g) => <li><span class="mono">{g.at}</span> — {g.change}</li>)}
+      </ul>
+    </section>
+  )}
+
+  <style>
+    .eyebrow { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 0.5rem; }
+    h1 { font-family: var(--font-display); color: var(--kumouri-purple); margin: 0 0 0.5rem; }
+    .lede { color: var(--text-muted); max-width: var(--max-w-prose); margin: 0 0 1.5rem; }
+    .flash { font-family: var(--font-mono); font-size: 0.9rem; padding: 0.6rem 0.9rem; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; }
+    .flash.ok { color: var(--ok); border-color: var(--ok); }
+    .flash.danger { color: var(--danger); border-color: var(--danger); }
+    .panel { margin-top: 2rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 1.25rem 1.5rem; }
+    .warn-panel { border-color: var(--warn); } .danger-panel { border-color: var(--danger); }
+    .row.global { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    label { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-muted); }
+    select { font-family: var(--font-mono); font-size: 0.85rem; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.35rem 0.5rem; }
+    select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+    table.dials { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+    .dials th { text-align: left; font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; padding: 0 0.75rem 0.5rem 0; border-bottom: 1px solid var(--border); }
+    .dials td, .dials th[scope="row"] { padding: 0.5rem 0.75rem 0.5rem 0; border-bottom: 1px solid var(--border); color: var(--text); }
+    .na { color: var(--text-dim); }
+    .btn { font-family: var(--font-mono); font-size: 0.85rem; padding: 0.5rem 1.1rem; border-radius: var(--radius); cursor: pointer; background: transparent; color: var(--toxic-green); border: 1px solid var(--toxic-green); }
+    .btn:hover { background: var(--surface-2); }
+    .grad { margin: 0; padding-left: 1.1rem; color: var(--text-muted); font-size: 0.9rem; display: grid; gap: 0.5rem; }
+    .mono { font-family: var(--font-mono); }
+    code { font-family: var(--font-mono); color: var(--toxic-green); }
+  </style>
+</AdminLayout>

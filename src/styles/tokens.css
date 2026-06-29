@@ -36,6 +36,12 @@
   --link-hover: var(--green-bright);
   --focus: var(--toxic-green);
 
+  /* Status colors for the admin dashboard. Contrast-safe for small text on the dark
+     base (purple is NOT — keep it for large text/borders/glow only, per BRAND.md). */
+  --danger: #ff5c6c; /* failures / destructive — passes AA on --bg */
+  --warn: #ffc857; /* needs-you / held — amber, passes AA on --bg */
+  --ok: var(--toxic-green);
+
   /* ---- Glows ---- */
   --glow-purple: 0 0 0.75rem rgba(142, 0, 255, 0.55), 0 0 2rem rgba(142, 0, 255, 0.25);
   --glow-green: 0 0 0.6rem rgba(0, 255, 15, 0.55), 0 0 1.75rem rgba(0, 255, 15, 0.2);

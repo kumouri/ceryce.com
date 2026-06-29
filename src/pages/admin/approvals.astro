@@ -1,0 +1,97 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getState, decideApproval, ControlPlaneUnavailable, type Approval } from '../../lib/controlPlane';
+
+const user = Astro.locals.user?.email ?? 'admin';
+
+// Handle an approve/reject form post, then redirect (PRG) so a refresh doesn't re-submit.
+let flash: string | null = null;
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  const id = String(form.get('id') ?? '');
+  const action = String(form.get('action') ?? '');
+  if (id && (action === 'approve' || action === 'reject')) {
+    try {
+      await decideApproval(id, action, user);
+      return Astro.redirect(`/admin/approvals/?done=${action}`);
+    } catch (err) {
+      flash = `Action failed: ${(err as Error).message}`;
+    }
+  }
+}
+const done = Astro.url.searchParams.get('done');
+
+let held: Approval[] = [];
+let unconfigured = false;
+let error: string | null = null;
+try {
+  held = (await getState()).heldApprovals;
+} catch (err) {
+  if (err instanceof ControlPlaneUnavailable) unconfigured = true;
+  else error = (err as Error).message;
+}
+---
+
+<AdminLayout title="Approvals" user={user}>
+  <p class="eyebrow">Margo · admin</p>
+  <h1>Approvals</h1>
+
+  {done && <p class="flash ok">Draft {done === 'approve' ? 'approved — Margo will send it' : 'rejected — discarded'}.</p>}
+  {flash && <p class="flash danger">{flash}</p>}
+  {unconfigured && <div class="panel warn-panel"><p>Control plane not configured yet.</p></div>}
+  {error && <div class="panel danger-panel"><p class="mono">{error}</p></div>}
+
+  {!unconfigured && !error && (
+    held.length === 0 ? (
+      <p class="muted">Nothing awaiting approval. 🎉</p>
+    ) : (
+      <ul class="approvals" aria-live="polite">
+        {held.map((a) => (
+          <li class="appr">
+            <div class="appr__head">
+              <span class="appr__kind mono">{a.kind}</span>
+              <span class="appr__summary">{a.summary}</span>
+            </div>
+            <p class="appr__preview mono">{a.bodyPreview}</p>
+            <div class="appr__actions">
+              <form method="POST">
+                <input type="hidden" name="id" value={a.id} />
+                <input type="hidden" name="action" value="approve" />
+                <button class="btn approve" type="submit">Approve &amp; send</button>
+              </form>
+              <form method="POST">
+                <input type="hidden" name="id" value={a.id} />
+                <input type="hidden" name="action" value="reject" />
+                <button class="btn reject" type="submit">Reject</button>
+              </form>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )
+  )}
+
+  <style>
+    .eyebrow { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 0.5rem; }
+    h1 { font-family: var(--font-display); color: var(--kumouri-purple); margin: 0 0 1.25rem; }
+    .flash { font-family: var(--font-mono); font-size: 0.9rem; padding: 0.6rem 0.9rem; border: 1px solid var(--border); border-radius: var(--radius); }
+    .flash.ok { color: var(--ok); border-color: var(--ok); }
+    .flash.danger { color: var(--danger); border-color: var(--danger); }
+    .panel { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 1.25rem 1.5rem; }
+    .warn-panel { border-color: var(--warn); }
+    .danger-panel { border-color: var(--danger); }
+    .approvals { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+    .appr { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 1.1rem 1.35rem; }
+    .appr__head { display: flex; gap: 0.75rem; align-items: baseline; flex-wrap: wrap; }
+    .appr__kind { font-size: var(--fs-eyebrow); color: var(--warn); text-transform: uppercase; letter-spacing: 0.06em; }
+    .appr__summary { color: var(--text); font-weight: 600; }
+    .appr__preview { color: var(--text-muted); font-size: 0.85rem; margin: 0.6rem 0 1rem; white-space: pre-wrap; }
+    .appr__actions { display: flex; gap: 0.75rem; }
+    .btn { font-family: var(--font-mono); font-size: 0.85rem; padding: 0.45rem 0.9rem; border-radius: var(--radius); cursor: pointer; background: transparent; }
+    .btn.approve { color: var(--ok); border: 1px solid var(--ok); }
+    .btn.reject { color: var(--danger); border: 1px solid var(--danger); }
+    .btn:hover { background: var(--surface-2); }
+    .muted { color: var(--text-muted); }
+    .mono { font-family: var(--font-mono); }
+  </style>
+</AdminLayout>

@@ -1,0 +1,79 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { enqueueJob, ControlPlaneUnavailable } from '../../lib/controlPlane';
+
+const user = Astro.locals.user?.email ?? 'admin';
+
+let flash: string | null = null;
+let flashKind: 'ok' | 'danger' = 'ok';
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  const mode = String(form.get('mode') ?? '');
+  const question = String(form.get('question') ?? '').trim();
+  const allowed = ['brief', 'wrap', 'triage', 'ask'];
+  if (allowed.includes(mode)) {
+    try {
+      const job = await enqueueJob(mode, mode === 'ask' ? { question } : {}, user);
+      return Astro.redirect(`/admin/trigger/?queued=${encodeURIComponent(mode)}&job=${encodeURIComponent(job.id)}`);
+    } catch (err) {
+      flash = err instanceof ControlPlaneUnavailable ? 'Control plane not configured yet.' : `Failed to queue: ${(err as Error).message}`;
+      flashKind = 'danger';
+    }
+  }
+}
+const queued = Astro.url.searchParams.get('queued');
+const jobId = Astro.url.searchParams.get('job');
+---
+
+<AdminLayout title="Trigger" user={user}>
+  <p class="eyebrow">Margo · admin</p>
+  <h1>Trigger a run</h1>
+  <p class="lede">Queue a job for the runner to drain. It runs on Margo's machine and reports back here.</p>
+
+  {queued && <p class="flash ok">Queued <strong>{queued}</strong> — job <span class="mono">{jobId}</span>. Watch <a href="/admin/">Overview</a> for the result.</p>}
+  {flash && <p class={`flash ${flashKind}`}>{flash}</p>}
+
+  <section class="grid">
+    {[
+      ['brief', 'Morning brief', "Assemble today's brief from calendar + Notion."],
+      ['wrap', 'EOD wrap', 'Evening recap: done / slipped / waiting / tomorrow.'],
+      ['triage', 'Triage', 'Sweep email + Slack + invites; hold drafts for you.'],
+    ].map(([mode, title, desc]) => (
+      <form method="POST" class="card">
+        <input type="hidden" name="mode" value={mode} />
+        <h2>{title}</h2>
+        <p>{desc}</p>
+        <button class="btn" type="submit">Queue {mode}</button>
+      </form>
+    ))}
+  </section>
+
+  <form method="POST" class="ask">
+    <input type="hidden" name="mode" value="ask" />
+    <h2>Ask Margo</h2>
+    <label for="q">A question about your schedule, todos, projects, or notes:</label>
+    <textarea id="q" name="question" rows="3" required placeholder="e.g. What's still open on the KMO project?"></textarea>
+    <button class="btn" type="submit">Ask</button>
+  </form>
+
+  <style>
+    .eyebrow { font-family: var(--font-mono); font-size: var(--fs-eyebrow); color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 0.5rem; }
+    h1 { font-family: var(--font-display); color: var(--kumouri-purple); margin: 0 0 0.5rem; }
+    .lede { color: var(--text-muted); margin: 0 0 1.5rem; }
+    .flash { font-family: var(--font-mono); font-size: 0.9rem; padding: 0.6rem 0.9rem; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 1.25rem; }
+    .flash.ok { color: var(--ok); border-color: var(--ok); }
+    .flash.danger { color: var(--danger); border-color: var(--danger); }
+    .flash a { color: var(--toxic-green); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1rem; }
+    .card, .ask { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); padding: 1.25rem 1.4rem; }
+    .ask { margin-top: 1.5rem; }
+    .card h2, .ask h2 { font-family: var(--font-display); color: var(--text); font-size: 1.1rem; margin: 0 0 0.4rem; }
+    .card p { color: var(--text-muted); font-size: 0.9rem; margin: 0 0 1rem; }
+    label { display: block; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem; }
+    textarea { width: 100%; box-sizing: border-box; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.6rem; font-family: var(--font-body); margin-bottom: 1rem; }
+    textarea:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-color: var(--border-bright); }
+    .btn { font-family: var(--font-mono); font-size: 0.85rem; padding: 0.5rem 1rem; border-radius: var(--radius); cursor: pointer; background: transparent; color: var(--toxic-green); border: 1px solid var(--toxic-green); }
+    .btn:hover { background: var(--surface-2); }
+    .mono { font-family: var(--font-mono); }
+  </style>
+</AdminLayout>
