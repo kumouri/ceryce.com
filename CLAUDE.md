@@ -26,6 +26,12 @@ Use those pronouns everywhere. Brand palette: **Kumouri Purple `#8e00ff`** (prim
   `Astro.locals.runtime.env`); the verified email is on `Astro.locals.user`. Config: `.dev.vars` locally
   (see `.dev.vars.example`), Worker secrets in prod — `ACCESS_TEAM_DOMAIN` + `ACCESS_AUD` must be set for
   the prod gate to admit anyone.
+- **Dashboard ↔ control plane.** The `/admin` pages (`index`=Observe, `approvals`, `trigger`, `autonomy`)
+  call **margo-control** server-side via `src/lib/controlPlane.ts` — the bearer (`DASH_API_SECRET`) + CF
+  Access service token live in the Worker, never the browser. Forms POST to the same page (PRG redirect).
+  Pages degrade gracefully (a "not configured" panel) until `CONTROL_PLANE_URL` + `DASH_API_SECRET` are
+  set. Data-dense small text uses `--text`/`--toxic-green`/`--warn`/`--danger` — **never** purple (it
+  fails small-text contrast; purple is for headings/borders/glow only).
 - **Brand contrast rule:** Toxic Green carries body text on the dark base; Kumouri Purple is for large
   text, borders, fills, and glow only (it fails small-text contrast). All motion is gated behind
   `prefers-reduced-motion`. See [BRAND.md](BRAND.md).
