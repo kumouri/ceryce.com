@@ -7,6 +7,9 @@ interface Props {
   /** Small label above the title, e.g. "AI-native CRM". */
   category?: string;
   tags?: string[];
+  /** External links (repos, live site). The CRM, for example, has two repos. */
+  links?: { label: string; href: string }[];
+  /** Convenience for a single link; folded into `links`. */
   href?: string;
   linkLabel?: string;
   featured?: boolean;
@@ -18,10 +21,13 @@ const {
   metric,
   category,
   tags = [],
+  links,
   href,
   linkLabel = 'View project',
   featured = false,
 }: Props = Astro.props;
+
+const allLinks = links ?? (href ? [{ label: linkLabel, href }] : []);
 ---
 
 <article class:list={['card project', { featured }]}>
@@ -48,10 +54,14 @@ const {
   }
 
   {
-    href && (
-      <a class="project-link" href={href} rel="noopener">
-        {linkLabel} <span aria-hidden="true">↗</span>
-      </a>
+    allLinks.length > 0 && (
+      <div class="project-links">
+        {allLinks.map((l) => (
+          <a class="project-link" href={l.href} rel="noopener" target="_blank">
+            {l.label} <span aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </div>
     )
   }
 </article>
@@ -122,8 +132,14 @@ const {
     padding: 0.2rem 0.5rem;
   }
 
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin-top: 0.15rem;
+  }
+
   .project-link {
-    align-self: flex-start;
     font-family: var(--font-mono);
     font-size: 0.85rem;
     color: var(--toxic-green);

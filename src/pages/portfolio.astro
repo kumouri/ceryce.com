@@ -10,8 +10,7 @@ type Project = {
   metric?: string;
   category?: string;
   tags?: string[];
-  href?: string;
-  linkLabel?: string;
+  links?: { label: string; href: string }[];
   featured?: boolean;
 };
 
@@ -38,6 +37,10 @@ const shipped: Project[] = [
     blurb:
       "A complete customer-engagement platform I designed and built solo — multi-tenant by architecture, with marketplace-style lead intake, ticketing, invoicing, and a knowledge base. The interesting part is the AI intake pipeline: it transcribes voicemails into structured leads, triages submitted photos, and drafts review replies — all behind an offline stub so the whole flow demos without live API keys. Built for my own venture over three focused weekends.",
     tags: ['Java 21', 'Spring Boot 3', 'PostgreSQL', 'React + TS', 'AWS', 'Terraform', 'Claude'],
+    links: [
+      { label: 'Backend', href: 'https://github.com/kumouri/kmo-digipres-be' },
+      { label: 'Frontend', href: 'https://github.com/kumouri/kmo-digipres-fe' },
+    ],
     featured: true,
   },
   {
@@ -47,6 +50,7 @@ const shipped: Project[] = [
     blurb:
       "The voice front-end to my assistant, Margo: a tiered screener that answers the phone and texts, works out who's calling and why, and passes along only what actually needs me. Real-time telephony wired to an LLM persona, running at the edge.",
     tags: ['Cloudflare Workers', 'Durable Objects', 'Twilio', 'Claude', 'ElevenLabs'],
+    links: [{ label: 'Repo', href: 'https://github.com/kumouri/ai-call-screener' }],
   },
   {
     title: 'A venture site, brand-checked at build time',
@@ -63,6 +67,15 @@ const shipped: Project[] = [
     blurb:
       'Four production-quality demo sites across different verticals — a restaurant, a law firm, a retail shop, and a salon — built from one shared component monorepo to show the CRM in context. Roughly an hour each, because the hard part was built once and reused.',
     tags: ['React', 'Vite', 'Tailwind', 'Radix / shadcn', 'npm workspaces'],
+  },
+  {
+    title: 'ceryce.com — this very site',
+    category: 'This site',
+    metric: 'Open source',
+    blurb:
+      "The site you're reading. Hand-built in Astro with a neon-cyberpunk brand and prerendered to Cloudflare Workers — now growing a server-rendered /admin dashboard, gated by Cloudflare Access, to drive Margo. Public and open source.",
+    tags: ['Astro', 'TypeScript', 'Cloudflare Workers', 'SSR'],
+    links: [{ label: 'Repo', href: 'https://github.com/kumouri/ceryce.com' }],
   },
 ];
 
