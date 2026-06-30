@@ -4,82 +4,143 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import GlitchHeading from '../components/GlitchHeading.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 
-/*
-  Portfolio entries. These are placeholders to be replaced with Ceryce's real,
-  publishable projects. Add/edit objects below — `href` is optional (omit for
-  not-yet-public work). Keep blurbs to a sentence or two.
-*/
 type Project = {
   title: string;
   blurb: string;
+  metric?: string;
+  category?: string;
   tags?: string[];
-  status?: string;
   href?: string;
+  linkLabel?: string;
+  featured?: boolean;
 };
 
-const projects: Project[] = [
+// Shipped work — the times shown are real, hands-on build time.
+const shipped: Project[] = [
   {
-    title: 'Project one',
+    title: 'A multi-tenant CRM with an AI intake pipeline',
+    category: 'Full-stack · AI-native CRM',
+    metric: '~40 hrs · 3 weekends',
     blurb:
-      'A short, plain-language description of what it does and why it mattered. Swap this card for something real.',
-    tags: ['TypeScript', 'Systems'],
-    status: 'Placeholder',
+      "A complete customer-engagement platform I designed and built solo — multi-tenant by architecture, with marketplace-style lead intake, ticketing, invoicing, and a knowledge base. The interesting part is the AI intake pipeline: it transcribes voicemails into structured leads, triages submitted photos, and drafts review replies — all behind an offline stub so the whole flow demos without live API keys. Built for my own venture over three focused weekends.",
+    tags: ['Java 21', 'Spring Boot 3', 'PostgreSQL', 'React + TS', 'AWS', 'Terraform', 'Claude'],
+    featured: true,
   },
   {
-    title: 'Project two',
+    title: 'AI call screener',
+    category: 'Telephony AI',
+    metric: '~3 days',
     blurb:
-      'Another representative project. Lead with the outcome, then the interesting technical wrinkle.',
-    tags: ['AI', 'Agents'],
-    status: 'Placeholder',
+      "The voice front-end to my assistant, Margo: a tiered screener that answers the phone and texts, works out who's calling and why, and passes along only what actually needs me. Real-time telephony wired to an LLM persona, running at the edge.",
+    tags: ['Cloudflare Workers', 'Durable Objects', 'Twilio', 'Claude', 'ElevenLabs'],
   },
   {
-    title: 'Project three',
-    blurb: 'A smaller tool or experiment. Side projects count — they show how you think.',
-    tags: ['Tooling'],
-    status: 'Placeholder',
+    title: 'A venture site, brand-checked at build time',
+    category: 'Marketing site',
+    metric: '~15 hrs · 2 days',
+    blurb:
+      'The marketing site for my venture, KMO Solutions Foundry — React and Vite prerendered to static HTML on Cloudflare Workers. It ships with a build-time brand-voice linter that fails the build on off-brand copy, so the site can never drift from its own voice guide.',
+    tags: ['React', 'Vite', 'TypeScript', 'Cloudflare Workers'],
+  },
+  {
+    title: 'Four demo sites in under four hours',
+    category: 'Rapid prototyping',
+    metric: '< 4 hrs · all four',
+    blurb:
+      'Four production-quality demo sites across different verticals — a restaurant, a law firm, a retail shop, and a salon — built from one shared component monorepo to show the CRM in context. Roughly an hour each, because the hard part was built once and reused.',
+    tags: ['React', 'Vite', 'Tailwind', 'Radix / shadcn', 'npm workspaces'],
+  },
+];
+
+// AI architecture & method — the systems and tooling behind the speed.
+const aiWork: Project[] = [
+  {
+    title: 'Margo — an agentic chief-of-staff',
+    category: 'Agentic system',
+    metric: 'Live · daily',
+    blurb:
+      "My chief-of-staff assistant. One consistent persona that screens my calls, texts, and email, runs my morning brief, and answers questions about my schedule and tasks. Under the hood it's an orchestrator that loads purpose-built subagents just-in-time, a local-first daemon running proactive loops, and an act-low / ask-high approval gate — it handles the safe things itself and drafts-and-holds anything outbound. References are baked in, so it never wastes a turn re-fetching schemas at runtime.",
+    tags: ['Claude Agent SDK', 'Python', 'Cloudflare Workers', 'D1', 'Twilio', 'Notion'],
+    featured: true,
+  },
+  {
+    title: 'My spec-driven development pipeline',
+    category: 'AI engineering method',
+    metric: 'Self-verifying',
+    blurb:
+      'How I ship fast without shipping slop. Specifications come first, and a separate verifier certifies every deliverable — the thing that does the work never grades its own homework. The core is a durable task-graph runtime with typed contracts, file-first state, memory, and a self-improvement loop; a local model does the cheap work and escalates to Claude only when it has to. In practice it runs as audit-driven phases: an audit becomes the spec, a briefing hands it off, one pull request per phase, and the verification gate decides what merges.',
+    tags: ['TypeScript', 'zod', 'SQLite', 'Ollama', 'Claude', 'Git Flow'],
+    featured: true,
+  },
+  {
+    title: 'A reusable Claude Code skill suite',
+    category: 'Agentic tooling',
+    metric: '7 skills',
+    blurb:
+      'The tooling that makes multi-agent engineering repeatable: context-loaders that prime a session with the right docs in the right order, a crash-recovery skill that rebuilds progress from git history and a ledger to resume a dead run, an in-flight decision framework, CI bootstrappers, and doc-sync. The tools that build the things that build.',
+    tags: ['Claude Code', 'Skills', 'Subagents'],
   },
 ];
 ---
 
 <BaseLayout
   title="Portfolio"
-  description="Selected work by Ceryce Armstrong — software engineering and AI projects."
+  description="Selected work by Ceryce Armstrong — production software and AI/agentic systems, shipped fast. CRM, AI call screener, agentic assistant, and a spec-driven engineering pipeline."
 >
-  <section class="portfolio">
+  <section class="portfolio-hero">
     <div class="container">
       <p class="eyebrow">// selected work</p>
       <GlitchHeading as="h1" text="Portfolio" />
       <p class="lead portfolio-lead">
-        A few of the things I've built. This is a living page — more is on the way as I clear projects
-        for sharing.
+        I build production systems fast — because I architect the AI and agentic workflows that help
+        build them. The build times below are real, hands-on hours.
       </p>
+    </div>
+  </section>
 
+  <section class="portfolio-section">
+    <div class="container">
+      <p class="eyebrow">// shipped</p>
+      <h2>Shipped</h2>
       <div class="portfolio-grid">
-        {
-          projects.map((p) => (
-            <ProjectCard
-              title={p.title}
-              blurb={p.blurb}
-              tags={p.tags}
-              status={p.status}
-              href={p.href}
-            />
-          ))
-        }
+        {shipped.map((p) => <ProjectCard {...p} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="portfolio-section">
+    <div class="container">
+      <p class="eyebrow">// ai architecture</p>
+      <h2>AI architecture &amp; how I build</h2>
+      <div class="portfolio-grid">
+        {aiWork.map((p) => <ProjectCard {...p} />)}
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
+  .portfolio-hero {
+    padding-block: clamp(3.5rem, 9vw, 6rem) 0;
+  }
+
   .portfolio-lead {
     margin-top: 1.25rem;
   }
 
+  .portfolio-section {
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .portfolio-section h2 {
+    margin-top: 0.4rem;
+  }
+
   .portfolio-grid {
-    margin-top: 2.5rem;
+    margin-top: 2rem;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
     gap: 1.25rem;
+    align-items: start;
   }
 </style>

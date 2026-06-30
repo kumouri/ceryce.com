@@ -2,21 +2,41 @@
 interface Props {
   title: string;
   blurb: string;
+  /** Short highlight shown as the green badge — usually build time, e.g. "~40 hrs · 3 weekends". */
+  metric?: string;
+  /** Small label above the title, e.g. "AI-native CRM". */
+  category?: string;
   tags?: string[];
   href?: string;
-  status?: string;
+  linkLabel?: string;
+  featured?: boolean;
 }
 
-const { title, blurb, tags = [], href, status } = Astro.props;
-const Tag = href ? 'a' : 'div';
+const {
+  title,
+  blurb,
+  metric,
+  category,
+  tags = [],
+  href,
+  linkLabel = 'View project',
+  featured = false,
+}: Props = Astro.props;
 ---
 
-<Tag class="card project" href={href} {...href ? { rel: 'noopener' } : {}}>
-  <div class="project-head">
-    <h3>{title}</h3>
-    {status && <span class="project-status">{status}</span>}
-  </div>
+<article class:list={['card project', { featured }]}>
+  {
+    (category || metric) && (
+      <div class="project-top">
+        {category && <span class="project-cat">{category}</span>}
+        {metric && <span class="project-metric">{metric}</span>}
+      </div>
+    )
+  }
+
+  <h3>{title}</h3>
   <p class="project-blurb">{blurb}</p>
+
   {
     tags.length > 0 && (
       <ul class="project-tags">
@@ -26,49 +46,56 @@ const Tag = href ? 'a' : 'div';
       </ul>
     )
   }
-  {href && <span class="project-arrow" aria-hidden="true">→</span>}
-</Tag>
+
+  {
+    href && (
+      <a class="project-link" href={href} rel="noopener">
+        {linkLabel} <span aria-hidden="true">↗</span>
+      </a>
+    )
+  }
+</article>
 
 <style>
   .project {
     display: flex;
     flex-direction: column;
     gap: 0.85rem;
-    text-decoration: none;
-    color: inherit;
     height: 100%;
   }
 
-  a.project:hover {
-    color: inherit;
-    text-shadow: none;
+  .project-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    flex-wrap: wrap;
   }
 
-  .project-head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
+  .project-cat {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--purple-soft);
+  }
+
+  /* The velocity badge — the hook. */
+  .project-metric {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--toxic-green);
+    background: color-mix(in srgb, var(--toxic-green) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--toxic-green) 35%, transparent);
+    border-radius: 999px;
+    padding: 0.2rem 0.7rem;
+    white-space: nowrap;
   }
 
   .project h3 {
     color: var(--text);
-  }
-
-  a.project:hover h3 {
-    color: var(--toxic-green);
-  }
-
-  .project-status {
-    flex-shrink: 0;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--purple-soft);
-    border: 1px solid color-mix(in srgb, var(--kumouri-purple) 45%, transparent);
-    border-radius: 999px;
-    padding: 0.15rem 0.6rem;
   }
 
   .project-blurb {
@@ -95,13 +122,38 @@ const Tag = href ? 'a' : 'div';
     padding: 0.2rem 0.5rem;
   }
 
-  .project-arrow {
+  .project-link {
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
     color: var(--toxic-green);
-    font-size: 1.1rem;
+    text-decoration: none;
+  }
+
+  .project-link span {
+    display: inline-block;
     transition: transform var(--dur) var(--ease);
   }
 
-  a.project:hover .project-arrow {
-    transform: translateX(4px);
+  .project-link:hover span {
+    transform: translate(2px, -2px);
+  }
+
+  /* Featured cards span the full grid row and lean into the brand. */
+  .project.featured {
+    grid-column: 1 / -1;
+    border-color: color-mix(in srgb, var(--kumouri-purple) 45%, var(--border));
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgba(142, 0, 255, 0.1), transparent 55%),
+      var(--surface);
+  }
+
+  .project.featured h3 {
+    font-size: clamp(1.45rem, 3vw, 1.9rem);
+  }
+
+  .project.featured .project-blurb {
+    font-size: 1.0625rem;
+    max-width: 60ch;
   }
 </style>
