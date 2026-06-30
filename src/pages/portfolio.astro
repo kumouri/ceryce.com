@@ -15,7 +15,21 @@ type Project = {
   featured?: boolean;
 };
 
-// Shipped work — the times shown are real, hands-on build time.
+// Professional work — employment/client engagements. Metrics must stay defensible;
+// the employer/client and internal project names are intentionally not stated.
+const professional: Project[] = [
+  {
+    title: 'Legacy DB batch → Spring Batch on Kubernetes',
+    category: 'Backend modernization',
+    metric: '~4× faster',
+    blurb:
+      'Re-platformed a critical batch-processing workload from in-database PL/pgSQL stored procedures to Spring Batch services running on Kubernetes (EKS) — roughly a 4× speedup. Breaking monolithic database jobs into composable, observable, independently deployable steps made the pipeline faster, easier to reason about, and far simpler to operate.',
+    tags: ['Java', 'Spring Batch', 'PostgreSQL', 'AWS EKS', 'Kubernetes'],
+    featured: true,
+  },
+];
+
+// Personal & venture work — the times shown are real, hands-on build time.
 const shipped: Project[] = [
   {
     title: 'A multi-tenant CRM with an AI intake pipeline',
@@ -100,8 +114,18 @@ const aiWork: Project[] = [
 
   <section class="portfolio-section">
     <div class="container">
-      <p class="eyebrow">// shipped</p>
-      <h2>Shipped</h2>
+      <p class="eyebrow">// professional</p>
+      <h2>Professional work</h2>
+      <div class="portfolio-grid">
+        {professional.map((p) => <ProjectCard {...p} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="portfolio-section">
+    <div class="container">
+      <p class="eyebrow">// personal &amp; venture</p>
+      <h2>Personal &amp; venture</h2>
       <div class="portfolio-grid">
         {shipped.map((p) => <ProjectCard {...p} />)}
       </div>
