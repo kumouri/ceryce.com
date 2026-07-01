@@ -4,52 +4,141 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import GlitchHeading from '../components/GlitchHeading.astro';
 
 /*
-  Résumé content. This is a structured template — fill the TODO placeholders with
-  real roles, dates, and details. Nothing here is fabricated; the experience entries
-  are scaffolding for Ceryce to complete. When a PDF export exists, drop it at
-  /public/resume.pdf and the download button below will light up.
+  Résumé content. Transcribed from Ceryce's résumé PDF (2026-06-30). Home address and
+  phone number are intentionally omitted from this public page — contact is email +
+  LinkedIn + GitHub only. A downloadable PDF is deferred until a redacted copy exists.
 */
 const summary =
-  "Software engineer with 10+ years of experience building and maintaining production systems, now focused on AI architecture and engineering — designing agentic systems where models, tools, and memory work together reliably.";
+  'AI-focused software architect with over a decade of full-stack engineering experience, now specializing in agentic systems, LLM-powered developer tooling, and spec-driven AI development pipelines that have measurably accelerated delivery by up to 4×. Adept at architecture design, overseeing implementations, mentoring teams, designing multi-agent AI orchestration, and building deep domain expertise — committed to translating emerging AI capabilities into reliable, production-grade systems that expand what one engineer can deliver.';
+
+const links = [
+  { label: 'GitHub', href: 'https://github.com/kumouri' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/kumouri' },
+  { label: 'contact@ceryce.com', href: 'mailto:contact@ceryce.com' },
+];
 
 type Role = {
   title: string;
   org: string;
   period: string;
+  env?: string;
   points: string[];
 };
 
 const experience: Role[] = [
   {
-    title: 'TODO — Role title',
-    org: 'TODO — Company',
-    period: 'YYYY – Present',
+    title: 'AI Architect',
+    org: 'InRhythm, O’Fallon, IL',
+    period: 'Jan 2026 – Present',
+    env: 'Java 21 · Spring Boot · Spring Batch · Amazon EKS · GitHub Copilot',
     points: [
-      'TODO — a concrete accomplishment with impact (what changed, by how much).',
-      'TODO — a system you built or owned, and the technology behind it.',
+      'Designed and deployed a spec-driven-development AI pipeline that modernizes legacy Oracle PL/SQL batch jobs running on the database host into individually containerized Spring Batch jobs on EKS — accelerating delivery by ~4× (from one quarter per batch to one month per batch).',
+      'Generalized the pipeline to modernize a Struts/JSP legacy monolith into a modern Angular front end backed by domain-specific Spring Boot microservices, improving development time by ~2×.',
+      'Built a Reflexion-based memory system so the pipeline learns from its mistakes and adapts to each client’s patterns and architecture.',
     ],
   },
   {
-    title: 'TODO — Previous role',
-    org: 'TODO — Company',
-    period: 'YYYY – YYYY',
-    points: ['TODO — a result that shows scope and ownership.'],
+    title: 'Senior Software Engineer',
+    org: 'Bank of America, Chicago, IL',
+    period: 'Apr 2024 – Apr 2025',
+    env: 'Java 17 · Spring Boot · DB2 · OpenShift · Kubernetes · Kafka · TDD',
+    points: [
+      'Senior developer on a SAFe agile team of six (three onshore, three offshore).',
+      'Added REST endpoints to a microservice for managing ACH transfer limits, eliminating full application rebuilds to change them.',
+      'Hardened ACH fraud detection with circuit breakers and a Kafka store-and-forward pattern to preserve transactions during downtime.',
+    ],
+  },
+  {
+    title: 'Senior Software Engineer',
+    org: 'PNC Bank, Chicago, IL',
+    period: 'Mar 2023 – Apr 2024',
+    env: 'Java · Spring Boot · Spring Data · MySQL · Kafka · Docker · TDD',
+    points: [
+      'Led a team of three building a Spring Boot microservice (Kafka + MySQL) bridging a new REST payment gateway with legacy batch applications.',
+      'Applied TDD and modern design patterns for a performant, extensible, fault-tolerant product.',
+      'Ensured DevOps compliance with CI/CD on internal RHEL OpenShift plus full monitoring and logging coverage.',
+    ],
+  },
+  {
+    title: 'Senior Software Engineer',
+    org: 'Loop Commerce, Columbia, MO',
+    period: 'Oct 2022 – Dec 2022',
+    points: ['Loop Commerce was shut down by its parent company, Synchrony Bank, one month after I was hired.'],
+  },
+  {
+    title: 'Senior Software Engineer',
+    org: 'SuprTek, O’Fallon, IL',
+    period: 'May 2018 – Aug 2022',
+    env: 'Java · Spring · JavaScript · Node.js · React · MongoDB · Kafka · TDD',
+    points: [
+      'Led a team of eight converting a legacy, spreadsheet-driven logistics line of business as part of a full-scale USTRANSCOM application rebuild.',
+      'Designed the data, service, REST API, and messaging layers for the Coronet line of business (MongoDB, Java, Spring Boot, Kafka).',
+      'Served as interim Product Owner for six months, leading client interactions and advocating for the client in team decisions.',
+    ],
+  },
+  {
+    title: 'Senior Software Engineer',
+    org: 'DMI, Carmel, IN',
+    period: 'Nov 2017 – Mar 2018',
+    env: 'Docker Enterprise · Red Hat Linux · Jenkins · Artifactory · TFS · Maven',
+    points: [
+      "Managed the transition of Allison Transmission’s DevOps infrastructure from external DMI hosting to internal hosting.",
+      'Migrated Jenkins, Team Foundation Server, Artifactory, and Git servers using Docker.',
+      'Built a Docker image and Maven repositories, migrating existing artifacts into the new Artifactory server.',
+    ],
+  },
+  {
+    title: 'Healthcare Informaticist',
+    org: 'BJC Healthcare, St. Louis, MO',
+    period: 'Nov 2014 – Jul 2017',
+    env: 'Java 6/7/8 · Spring · Struts · JavaScript · jQuery · Sybase · DB2 · SQL Server · PostgreSQL · Python',
+    points: [
+      "Led design and implementation of BJC’s CDC grant-funded software for antibiotic use and resistance reporting.",
+      'Led conversion of major projects’ build infrastructure to Maven, mentoring six team members on its use.',
+      'Maintained and updated hospital-acquired-disease reporting infrastructure (Java, Spring, Struts, JavaScript, jQuery).',
+      'Interpreted CDC technical guides to implement new XML reports for CDC submission.',
+    ],
   },
 ];
 
 const skillGroups = [
-  { label: 'Focus', items: ['AI architecture', 'Agentic systems', 'Backend engineering'] },
-  { label: 'TODO — Languages', items: ['TODO', 'TODO'] },
-  { label: 'TODO — Tools & platforms', items: ['TODO', 'TODO'] },
+  { label: 'Languages', items: ['Java (6–24)', 'Lua', 'C#', 'C++', 'JavaScript', 'Python', 'Bash', 'PowerShell', 'Lisp'] },
+  { label: 'Frameworks', items: ['Spring', 'Spring Boot', 'Spring Data', 'JUnit', 'Mockito', 'React', 'Node.js', 'jQuery'] },
+  { label: 'Databases', items: ['MySQL', 'PostgreSQL', 'MongoDB', 'MSSQL', 'Oracle', 'DB2', 'Hibernate'] },
+  { label: 'Design', items: ['Microservices', 'TDD', 'REST', 'Architecture'] },
+  {
+    label: 'AI tooling',
+    items: [
+      'Claude Code',
+      'Claude Agent SDK (Py & TS)',
+      'GitHub Copilot',
+      'Cursor',
+      'Agentic orchestration',
+      'Subagent design',
+      'Spec-driven development',
+      'Skill & hook dev',
+      'MCP servers',
+      'Prompt engineering',
+    ],
+  },
+  { label: 'Ops & other', items: ['Docker', 'Kafka', 'OpenShift', 'OAuth2', 'IBM MQ', 'Tomcat', 'Caddy', 'Gradle', 'Maven', 'Ant', 'Linux admin'] },
 ];
 
-// Flip to true once /public/resume.pdf exists.
+// Compact mirror of the résumé's projects; full write-ups live on /portfolio.
+const projects = [
+  ['Margo — agentic chief-of-staff', 'A persistent AI orchestrator that loads subagents just-in-time and runs local-first proactive loops to screen calls, texts, and email.'],
+  ['Spec-driven AI development pipeline', 'A self-verifying, spec-first engineering pipeline with a durable task-graph runtime, typed contracts, and a dedicated verification gate.'],
+  ['AI-native CRM & call screener', 'A solo-built multi-tenant platform with an AI intake pipeline, plus a real-time telephony screener wired to an LLM persona.'],
+];
+
+// Deferred: the source PDF contains a home address + phone. Enable only once a
+// redacted copy is placed at /public/resume.pdf.
 const hasPdf = false;
 ---
 
 <BaseLayout
   title="Résumé"
-  description="Résumé of Ceryce Armstrong — software engineer of 10+ years moving into AI architecture and engineering."
+  description="Résumé of Ceryce Armstrong — AI-focused software architect with 10+ years of full-stack engineering, specializing in agentic systems and spec-driven AI pipelines."
 >
   <section class="resume">
     <div class="container resume-inner">
@@ -57,7 +146,10 @@ const hasPdf = false;
         <div>
           <p class="eyebrow">// résumé</p>
           <GlitchHeading as="h1" text="Ceryce Armstrong" />
-          <p class="resume-role">Software Engineer · AI Architecture &amp; Engineering</p>
+          <p class="resume-role">AI Architect · Full-stack engineer of 10+ years</p>
+          <nav class="resume-links" aria-label="Profiles">
+            {links.map((l) => <a href={l.href} rel="noopener">{l.label}</a>)}
+          </nav>
         </div>
         {
           hasPdf ? (
@@ -86,6 +178,7 @@ const hasPdf = false;
                   </h3>
                   <span class="period">{role.period}</span>
                 </div>
+                {role.env && <p class="role-env">{role.env}</p>}
                 <ul class="role-points">
                   {role.points.map((pt) => (
                     <li>{pt}</li>
@@ -116,8 +209,31 @@ const hasPdf = false;
       </div>
 
       <div class="resume-section">
+        <div class="section-head">
+          <h2>Selected projects</h2>
+          <a class="section-link" href="/portfolio/">Full portfolio ↗</a>
+        </div>
+        <ul class="projects">
+          {
+            projects.map(([name, desc]) => (
+              <li>
+                <span class="project-name">{name}</span>
+                <span class="project-desc">{desc}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="resume-section">
         <h2>Education</h2>
-        <p class="muted">TODO — degree / program, institution, year (or "self-taught" — own it).</p>
+        <div class="edu">
+          <div class="edu-head">
+            <h3>B.S. in Computer Science</h3>
+            <span class="period">Aug 2010 – Dec 2014</span>
+          </div>
+          <p class="edu-org">South Dakota School of Mines &amp; Technology — Rapid City, SD</p>
+        </div>
       </div>
 
       <p class="resume-contact">
@@ -147,6 +263,24 @@ const hasPdf = false;
     font-size: 0.95rem;
   }
 
+  .resume-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin-top: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .resume-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .resume-links a:hover {
+    color: var(--toxic-green);
+  }
+
   .is-disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -166,6 +300,26 @@ const hasPdf = false;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--border);
     margin-bottom: 1.5rem;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .section-head h2 {
+    flex: 1;
+  }
+
+  .section-link {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--toxic-green);
+    text-decoration: none;
+    white-space: nowrap;
   }
 
   .timeline {
@@ -219,6 +373,14 @@ const hasPdf = false;
     font-family: var(--font-mono);
     font-size: 0.85rem;
     color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  .role-env {
+    margin-top: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-dim);
   }
 
   .role-points {
@@ -270,8 +432,45 @@ const hasPdf = false;
     padding: 0.25rem 0.6rem;
   }
 
-  .muted {
-    color: var(--text-dim);
+  .projects {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .projects li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .project-name {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .project-desc {
+    color: var(--text-muted);
+  }
+
+  .edu-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+  }
+
+  .edu-head h3 {
+    color: var(--text);
+  }
+
+  .edu-org {
+    margin-top: 0.3rem;
+    color: var(--purple-soft);
   }
 
   .resume-contact {
