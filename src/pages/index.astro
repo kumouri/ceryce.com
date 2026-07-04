@@ -2,6 +2,11 @@
 export const prerender = true; // Static marketing page; only /admin/** is server-rendered.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GlitchHeading from '../components/GlitchHeading.astro';
+import CredlyBadge from '../components/CredlyBadge.astro';
+
+// Verifiable credential featured on the homepage. Public badge for the JS-off fallback.
+const credlyBadgeId = '4054ad95-fe1f-4fe2-a538-5f1a09673b9a';
+const credlyVerify = 'https://www.credly.com/badges/4054ad95-fe1f-4fe2-a538-5f1a09673b9a/public_url';
 
 const focus = [
   {
@@ -40,6 +45,29 @@ const focus = [
       <div class="hero-cta">
         <a class="btn btn-primary" href="/portfolio/">View portfolio</a>
         <a class="btn btn-ghost" href="/resume/">Read résumé</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="credential">
+    <div class="container credential-inner">
+      <div class="credential-copy">
+        <p class="eyebrow">// credential</p>
+        <h2 class="credential-title">Claude Certified Architect</h2>
+        <p class="credential-body">
+          Freshly earned: Anthropic's <strong>Claude Certified Architect — Foundations</strong>. An
+          independent, verifiable stamp on the work I've been pouring myself into — designing
+          production-grade systems with Claude at the center.
+        </p>
+        <div class="credential-cta">
+          <a class="btn btn-ghost" href={credlyVerify} target="_blank" rel="noopener">
+            Verify on Credly ↗
+          </a>
+          <a class="section-link" href="/resume/">See the full résumé →</a>
+        </div>
+      </div>
+      <div class="credential-badge">
+        <CredlyBadge badgeId={credlyBadgeId} />
       </div>
     </div>
   </section>
@@ -101,6 +129,66 @@ const focus = [
     flex-wrap: wrap;
     gap: 0.85rem;
     margin-top: 2.25rem;
+  }
+
+  .credential {
+    padding-top: 0;
+  }
+
+  .credential-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.75rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  .credential-copy {
+    flex: 1 1 20rem;
+  }
+
+  .credential-title {
+    margin-top: 0.5rem;
+    color: var(--purple-soft);
+    text-shadow: var(--glow-purple, none);
+  }
+
+  .credential-body {
+    margin-top: 0.85rem;
+    color: var(--text-muted);
+    max-width: 34rem;
+  }
+
+  .credential-body strong {
+    color: var(--toxic-green);
+  }
+
+  .credential-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.85rem 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .credential-cta .section-link {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--toxic-green);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .credential-cta .section-link:hover {
+    text-decoration: underline;
+  }
+
+  .credential-badge {
+    flex: 0 0 auto;
+    margin-inline: auto;
   }
 
   .focus {
