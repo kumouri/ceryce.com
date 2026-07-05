@@ -2,6 +2,7 @@
 export const prerender = true; // Static marketing page; only /admin/** is server-rendered.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GlitchHeading from '../components/GlitchHeading.astro';
+import CredlyBadge from '../components/CredlyBadge.astro';
 
 /*
   Résumé content. Transcribed from Ceryce's résumé PDF (2026-06-30). Home address and
@@ -27,7 +28,7 @@ type Role = {
 
 const experience: Role[] = [
   {
-    title: 'AI Architect',
+    title: 'AI Engineer',
     org: 'InRhythm, O’Fallon, IL',
     period: 'Jan 2026 – Present',
     env: 'Java 21 · Spring Boot · Spring Batch · Amazon EKS · GitHub Copilot',
@@ -133,6 +134,13 @@ const projects = [
 
 // Redacted PDF (no address/phone/email) lives at /public/resume.pdf.
 const hasPdf = true;
+
+// Verified digital credentials. The Credly embed (client-side embed.js) swaps each
+// data-share-badge-id <div> for the badge iframe; `verify` is the JS-off / no-embed
+// fallback link to the public badge. Add new badges here.
+const certifications = [
+  { badgeId: '4054ad95-fe1f-4fe2-a538-5f1a09673b9a', verify: 'https://www.credly.com/badges/4054ad95-fe1f-4fe2-a538-5f1a09673b9a/public_url' },
+];
 ---
 
 <BaseLayout
@@ -205,6 +213,22 @@ const hasPdf = true;
             ))
           }
         </div>
+      </div>
+
+      <div class="resume-section">
+        <h2>Certifications</h2>
+        <ul class="certs">
+          {
+            certifications.map((c) => (
+              <li class="cert">
+                <CredlyBadge badgeId={c.badgeId} />
+                <a class="cert-verify" href={c.verify} target="_blank" rel="noopener">
+                  Verify on Credly ↗
+                </a>
+              </li>
+            ))
+          }
+        </ul>
       </div>
 
       <div class="resume-section">
@@ -453,6 +477,38 @@ const hasPdf = true;
 
   .project-desc {
     color: var(--text-muted);
+  }
+
+  .certs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .cert {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .cert-verify {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--toxic-green);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .cert-verify:hover {
+    text-decoration: underline;
   }
 
   .edu-head {
