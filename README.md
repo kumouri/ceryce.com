@@ -34,15 +34,16 @@ Requires Node 18.20.8+, 20.3+, or 22+.
 | `src/components/` | `Nav`, `Footer`, `GlitchHeading`, `ProjectCard`. |
 | `src/styles/` | `tokens.css` (brand variables) + `global.css`. |
 | `legal/` | **Canonical** Privacy + Terms Markdown. The pages render HTML from these — never hand-edit HTML. |
-| `public/` | Favicon, OG image, future `resume.pdf`. |
+| `public/` | Favicon, OG image, redacted `resume.pdf`. |
 
 ## Editing content
 
 - **Legal** — edit `legal/privacy-policy.md` / `legal/terms-and-conditions.md`. The site renders them at
   build time (the `terms` page substitutes the Illinois governing-law state and strips internal notes).
-- **Portfolio** — replace the placeholder entries in `src/pages/portfolio.astro`.
-- **Résumé** — fill the `TODO` placeholders in `src/pages/resume.astro`; drop a `public/resume.pdf` and
-  flip `hasPdf` to enable the download button.
+- **Portfolio** — edit the project entries in `src/pages/portfolio.astro` (content is live, no longer
+  placeholders).
+- **Résumé** — edit the content constants in `src/pages/resume.astro` (transcribed from the 2026-06-30
+  résumé PDF); the redacted `public/resume.pdf` is present and `hasPdf` is enabled.
 
 ## Deploy
 

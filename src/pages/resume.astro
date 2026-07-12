@@ -225,13 +225,20 @@ const hasPdf = true;
       </div>
 
       <div class="resume-section">
-        <h2>Education</h2>
+        <h2>Education &amp; certifications</h2>
         <div class="edu">
           <div class="edu-head">
             <h3>B.S. in Computer Science</h3>
             <span class="period">Aug 2010 – Dec 2014</span>
           </div>
           <p class="edu-org">South Dakota School of Mines &amp; Technology — Rapid City, SD</p>
+        </div>
+        <div class="edu">
+          <div class="edu-head">
+            <h3>Claude Certified Architect — Foundations (CCA-F)</h3>
+            <span class="period">2026</span>
+          </div>
+          <p class="edu-org">Anthropic</p>
         </div>
       </div>
 
@@ -453,6 +460,10 @@ const hasPdf = true;
 
   .project-desc {
     color: var(--text-muted);
+  }
+
+  .edu + .edu {
+    margin-top: 1.5rem;
   }
 
   .edu-head {
