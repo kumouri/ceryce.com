@@ -1,0 +1,28 @@
+---
+/*
+  Renders a verifiable Credly badge. Credly's embed.js (loaded client-side) scans the
+  DOM for the data-share-badge-id element and swaps it for the badge iframe. We reserve
+  the iframe's box so there's no layout shift while the script loads, and mark the script
+  `is:inline` so Astro emits it verbatim instead of bundling/hoisting it. Safe to use once
+  per page (the script tag is included alongside the placeholder).
+*/
+interface Props {
+  badgeId: string;
+  width?: number;
+  height?: number;
+  class?: string;
+}
+
+const { badgeId, width = 150, height = 270, class: className } = Astro.props;
+---
+
+<div
+  class:list={['credly-badge', className]}
+  data-iframe-width={String(width)}
+  data-iframe-height={String(height)}
+  data-share-badge-id={badgeId}
+  data-share-badge-host="https://www.credly.com"
+  style={`width:${width}px;height:${height}px`}
+>
+</div>
+<script is:inline type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>

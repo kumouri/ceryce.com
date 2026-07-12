@@ -2,6 +2,7 @@
 export const prerender = true; // Static marketing page; only /admin/** is server-rendered.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GlitchHeading from '../components/GlitchHeading.astro';
+import CredlyBadge from '../components/CredlyBadge.astro';
 
 /*
   Résumé content. Synced from Ceryce's canonical résumé docx (2026-07-12). Home address
@@ -133,6 +134,13 @@ const projects = [
 
 // Redacted PDF (no address/phone/email) lives at /public/resume.pdf.
 const hasPdf = true;
+
+// Verified digital credentials. The Credly embed (client-side embed.js) swaps each
+// data-share-badge-id <div> for the badge iframe; `verify` is the JS-off / no-embed
+// fallback link to the public badge. Add new badges here.
+const certifications = [
+  { badgeId: '4054ad95-fe1f-4fe2-a538-5f1a09673b9a', verify: 'https://www.credly.com/badges/4054ad95-fe1f-4fe2-a538-5f1a09673b9a/public_url' },
+];
 ---
 
 <BaseLayout
@@ -208,6 +216,22 @@ const hasPdf = true;
       </div>
 
       <div class="resume-section">
+        <h2>Certifications</h2>
+        <ul class="certs">
+          {
+            certifications.map((c) => (
+              <li class="cert">
+                <CredlyBadge badgeId={c.badgeId} />
+                <a class="cert-verify" href={c.verify} target="_blank" rel="noopener">
+                  Verify on Credly ↗
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="resume-section">
         <div class="section-head">
           <h2>Selected projects</h2>
           <a class="section-link" href="/portfolio/">Full portfolio ↗</a>
@@ -225,29 +249,13 @@ const hasPdf = true;
       </div>
 
       <div class="resume-section">
-        <h2>Education &amp; certifications</h2>
+        <h2>Education</h2>
         <div class="edu">
           <div class="edu-head">
             <h3>B.S. in Computer Science</h3>
             <span class="period">Aug 2010 – Dec 2014</span>
           </div>
           <p class="edu-org">South Dakota School of Mines &amp; Technology — Rapid City, SD</p>
-        </div>
-        <div class="edu">
-          <div class="edu-head">
-            <h3>Claude Certified Architect — Foundations (CCA-F)</h3>
-            <span class="period">2026</span>
-          </div>
-          <p class="edu-org">
-            Anthropic ·
-            <a
-              class="verify-link"
-              href="https://www.credly.com/badges/4054ad95-fe1f-4fe2-a538-5f1a09673b9a/public_url"
-              rel="noopener"
-            >
-              Verify ↗
-            </a>
-          </p>
         </div>
       </div>
 
@@ -471,8 +479,36 @@ const hasPdf = true;
     color: var(--text-muted);
   }
 
-  .edu + .edu {
-    margin-top: 1.5rem;
+  .certs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .cert {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .cert-verify {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--toxic-green);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .cert-verify:hover {
+    text-decoration: underline;
   }
 
   .edu-head {
@@ -490,13 +526,6 @@ const hasPdf = true;
   .edu-org {
     margin-top: 0.3rem;
     color: var(--purple-soft);
-  }
-
-  .verify-link {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--toxic-green);
-    text-decoration: none;
   }
 
   .resume-contact {
