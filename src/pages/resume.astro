@@ -5,12 +5,12 @@ import GlitchHeading from '../components/GlitchHeading.astro';
 import CredlyBadge from '../components/CredlyBadge.astro';
 
 /*
-  Résumé content. Transcribed from Ceryce's résumé PDF (2026-06-30). Home address and
-  phone number are intentionally omitted from this public page — contact is email +
-  LinkedIn + GitHub only. A downloadable PDF is deferred until a redacted copy exists.
+  Résumé content. Synced from Ceryce's canonical résumé docx (2026-07-12). Home address
+  and phone number are intentionally omitted from this public page — contact is email +
+  LinkedIn + GitHub only. The downloadable PDF is the redacted render of the same docx.
 */
 const summary =
-  'AI-focused software architect with over a decade of full-stack engineering experience, now specializing in agentic systems, LLM-powered developer tooling, and spec-driven AI development pipelines that have measurably accelerated delivery by up to 4×. Adept at architecture design, overseeing implementations, mentoring teams, designing multi-agent AI orchestration, and building deep domain expertise — committed to translating emerging AI capabilities into reliable, production-grade systems that expand what one engineer can deliver.';
+  'AI-focused software architect with over a decade of full-stack engineering experience, now specializing in agentic systems, LLM-powered developer tooling, and spec-driven AI development pipelines that have measurably accelerated delivery by up to 4×. Adept at architecture design, overseeing implementations, mentoring teams, designing multi-agent AI orchestration, maintaining strong client relationships, and acquiring deep domain expertise — committed to translating emerging AI capabilities into reliable, production-grade systems that expand what one engineer can deliver.';
 
 const links = [
   { label: 'GitHub', href: 'https://github.com/kumouri' },
@@ -53,9 +53,9 @@ const experience: Role[] = [
     title: 'Senior Software Engineer',
     org: 'PNC Bank, Chicago, IL',
     period: 'Mar 2023 – Apr 2024',
-    env: 'Java · Spring Boot · Spring Data · MySQL · Kafka · Docker · TDD',
+    env: 'Java 11 → 21 · Spring Boot · Spring Data · MySQL · Docker · TDD',
     points: [
-      'Led a team of three building a Spring Boot microservice (Kafka + MySQL) bridging a new REST payment gateway with legacy batch applications.',
+      'Led a team of three modernizing a Java 11 Spring Boot microservice to Java 21 (Kafka + MySQL), bridging a new REST payment gateway with legacy batch applications.',
       'Applied TDD and modern design patterns for a performant, extensible, fault-tolerant product.',
       'Ensured DevOps compliance with CI/CD on internal RHEL OpenShift plus full monitoring and logging coverage.',
     ],
@@ -70,10 +70,10 @@ const experience: Role[] = [
     title: 'Senior Software Engineer',
     org: 'SuprTek, O’Fallon, IL',
     period: 'May 2018 – Aug 2022',
-    env: 'Java · Spring · JavaScript · Node.js · React · MongoDB · Kafka · TDD',
+    env: 'Java 17 · Spring · JavaScript · Node.js · React · MongoDB · TDD',
     points: [
       'Led a team of eight converting a legacy, spreadsheet-driven logistics line of business as part of a full-scale USTRANSCOM application rebuild.',
-      'Designed the data, service, REST API, and messaging layers for the Coronet line of business (MongoDB, Java, Spring Boot, Kafka).',
+      'Designed the data, service, REST API, and messaging layers for the Coronet line of business (MongoDB, Java 17, Spring Boot, Kafka).',
       'Served as interim Product Owner for six months, leading client interactions and advocating for the client in team decisions.',
     ],
   },

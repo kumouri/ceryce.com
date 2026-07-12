@@ -35,8 +35,9 @@ Use those pronouns everywhere. Brand palette: **Kumouri Purple `#8e00ff`** (prim
 - **Brand contrast rule:** Toxic Green carries body text on the dark base; Kumouri Purple is for large
   text, borders, fills, and glow only (it fails small-text contrast). All motion is gated behind
   `prefers-reduced-motion`. See [BRAND.md](BRAND.md).
-- **Portfolio + Résumé are templates** with `TODO`/placeholder content for Ceryce to fill — don't
-  fabricate work history, and don't auto-publish her private repos.
+- **Portfolio + Résumé carry real content** (filled 2026-06-30 from Ceryce's résumé PDF; redacted
+  `public/resume.pdf` is live). Keep them factual — don't fabricate work history, don't add metrics that
+  aren't defensible, and don't auto-publish her private repos. Home address and phone stay off the site.
 
 ## Build & CI
 
