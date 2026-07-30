@@ -3,17 +3,34 @@ export const prerender = true; // Static marketing page; only /admin/** is serve
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GlitchHeading from '../components/GlitchHeading.astro';
 
+// The four moves, abstracted: the pattern is the point, not the setting it happened in.
+const moves = [
+  'The marketplace took a cut and hid the counterparty from me, so I left it and negotiated direct, in bulk, with the people actually on the other end.',
+  'Coordinating buyers and deliveries by hand got tedious about a week in, so I automated the coordination.',
+  "The same questions kept arriving forever, so I wrote the reference manual — 1,700+ documented functions, with an early language model pressed into service to draft the descriptions, years before reaching for one was an obvious thing to do. When the docs weren't enough, I made videos.",
+  "Part of what the operation ran on wore out at a steady rate I couldn't engineer away. So I stopped treating that as a bug to drive to zero and started treating it as a supply problem: price the loss in, secure the resupply, keep running.",
+];
+
 const values = [
-  ['Signal over noise', 'I would rather hand you three things that matter than ten that do not.'],
-  ['Build it to be read', 'Code, docs, systems — optimized for the next human, including future me.'],
-  ['Curiosity as a method', 'I learn by taking things apart. The AI work is just the latest thing I could not leave alone.'],
+  [
+    'Teach the model, not the answer',
+    'Hand someone the structure that generates answers and you only have to do it once. Aim an explanation at how a person thinks, not at the question they asked.',
+  ],
+  [
+    'Invisible excellence',
+    'The best thing I ever did in a game was the perfectly timed heal that canceled the damage before the person taking it noticed. Good systems work like that — you find out they were there by going looking.',
+  ],
+  [
+    'Evidence over agreement',
+    "Praise doesn't tell me much — the articulate version of an idea can plant the thought. Show me the evidence and where your read differs from mine. I'll do the same, including when the wrong call was mine.",
+  ],
   ['Honesty about limits', 'Systems fail. The good ones fail safely and tell you the truth about it.'],
 ];
 ---
 
 <BaseLayout
   title="About"
-  description="About Ceryce Armstrong — Autistic Trans Woman with ADHD, software engineer of 10+ years with a passion for AI architecture and engineering."
+  description="About Ceryce Armstrong — Autistic Trans Woman with ADHD, software engineer of 10+ years working in AI architecture and engineering."
 >
   <section class="about">
     <div class="container about-inner">
@@ -38,14 +55,70 @@ const values = [
         <p>
           My name is pronounced <em>"Cerise,"</em> like the color — always written <em>Ceryce</em>. I've
           spent years in the unglamorous middle of software: backends and services, the glue and the
-          plumbing, the systems that have to keep working when no one is watching. Lately I've been
-          building assistants and automations in the open, because the fastest way for me to understand
-          something is to build it.
+          plumbing, the systems that have to keep working when no one is watching.
+        </p>
+      </div>
+
+      <div class="story">
+        <p class="eyebrow">// the through-line</p>
+        <h2>I find a cost I keep paying by hand, then build the thing that absorbs it.</h2>
+
+        <p>
+          It's the most reliable thing anyone can know about me, and it holds across contexts that look
+          nothing alike. The clearest version is also the oldest: long before any of this was a job, I ran
+          what amounted to a one-woman supply chain inside an online game's player economy. Read as a
+          career, it had a procurement function and a documentation department. It went in four moves, and
+          every one of them started as something I was doing by hand and got tired of.
+        </p>
+
+        <ol class="moves">
+          {moves.map((m) => <li>{m}</li>)}
+        </ol>
+
+        <p>
+          That last one is the move I'm proudest of, and it's the easiest to miss. Most people in that seat
+          optimize harder and get angry when the losses happen anyway. Treating an irreducible attrition
+          rate as a base rate instead of a defect is inventory management, derived from first principles,
+          inside a game.
         </p>
 
         <p>
-          If you want the structured version, my <a href="/resume/">résumé</a> lays out the work, and my
-          <a href="/portfolio/">portfolio</a> shows a few of the things I've made.
+          Everything since has been the same move in a different costume. Every project on
+          my <a href="/portfolio/">portfolio</a> is a cost I decided to stop paying by hand — an assistant
+          that screens my phone so I don't, a framework I generalized and gave away, a background job
+          whose promise outlives the process that made it.
+        </p>
+
+        <h3>I teach the model, not the answer</h3>
+
+        <p>
+          My instinct with a question is to hand over the structure that generates answers rather than the
+          answer itself. That 1,700-function reference wasn't documentation; it was an artifact that
+          answered while I slept. Docs, then videos, then a language model drafting descriptions — none of
+          that was giving up on teaching. It was teaching one-to-many. It's also how I'd rather be taught:
+          tell me <em>why the shape is what it is</em> and I'll get the rest faster than an answer would
+          have gotten me there.
+        </p>
+
+        <h3>The coordination layer is the part I actually want</h3>
+
+        <p>
+          Ownership, sequencing, dependency under time pressure — that's what holds my attention, and a
+          logistics problem will hold it when a CRUD problem won't. Worth saying plainly: it was never the
+          dealmaking. I don't miss negotiating contracts even slightly. The part I liked
+          was <em>automating</em> the coordination, not performing it.
+        </p>
+
+        <p>
+          I know exactly where that came from. FIRST Robotics in high school is still the happiest I've
+          been: a hard problem, a trusted team, a deadline, and hands and mind making a machine actually
+          work. All four. I've been quietly scoring things against that list ever since, and it's usually
+          the fastest way to tell whether I'm going to be any good at something.
+        </p>
+
+        <p>
+          If you want the structured version, my <a href="/resume/">résumé</a> lays out the work, and
+          my <a href="/portfolio/">portfolio</a> shows a few of the things I've made.
         </p>
       </div>
 
@@ -86,6 +159,50 @@ const values = [
   .about-body em {
     color: var(--purple-soft);
     font-style: normal;
+  }
+
+  /* The narrative section. Same muted reading color as .about-body; headings carry the structure. */
+  .story {
+    margin-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    color: var(--text-muted);
+  }
+
+  .story h2 {
+    margin-top: 0.4rem;
+    color: var(--text);
+    font-size: clamp(1.5rem, 3.4vw, 2.15rem);
+  }
+
+  /* h3s reopen a beat inside the story, so they need more air above than below. */
+  .story h3 {
+    margin-top: 1.5rem;
+    color: var(--purple-soft);
+  }
+
+  .story em {
+    color: var(--purple-soft);
+    font-style: normal;
+  }
+
+  .moves {
+    margin: 0;
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .moves li {
+    padding-left: 0.3rem;
+  }
+
+  .moves li::marker {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    color: var(--toxic-green);
   }
 
   .values {

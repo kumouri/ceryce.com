@@ -40,6 +40,8 @@ Requires Node 18.20.8+, 20.3+, or 22+.
 
 - **Legal** — edit `legal/privacy-policy.md` / `legal/terms-and-conditions.md`. The site renders them at
   build time (the `terms` page substitutes the Illinois governing-law state and strips internal notes).
+- **About** — the narrative and the `moves` / `values` arrays in `src/pages/about.astro`. The four "moves"
+  are deliberately told without naming the game they happened in — see [CLAUDE.md](CLAUDE.md).
 - **Portfolio** — edit the project entries in `src/pages/portfolio.astro` (content is live, no longer
   placeholders).
 - **Résumé** — edit the content constants in `src/pages/resume.astro` (transcribed from the 2026-06-30

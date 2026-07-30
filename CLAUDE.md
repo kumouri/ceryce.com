@@ -38,6 +38,13 @@ Use those pronouns everywhere. Brand palette: **Kumouri Purple `#8e00ff`** (prim
 - **Portfolio + Résumé carry real content** (filled 2026-06-30 from Ceryce's résumé PDF; redacted
   `public/resume.pdf` is live). Keep them factual — don't fabricate work history, don't add metrics that
   aren't defensible, and don't auto-publish her private repos. Home address and phone stay off the site.
+- **About carries the professional narrative** — the through-line ("I find a cost I keep paying by hand,
+  then build the thing that absorbs it"), the four `moves`, and the `values` cards. Two hard constraints:
+  the four moves are told **abstracted** — the game is not named and the specifics of how capacity was
+  lost and resupplied are not stated — and the Autistic-Trans-Woman-with-ADHD paragraph is **hers as
+  written**; don't extend it with anything about her body, health, or family. Nothing about her family,
+  her personal circumstances, comp, the current client, or the relocation constraint's reason belongs
+  anywhere on this site.
 
 ## Build & CI
 
