@@ -17,6 +17,12 @@ Use those pronouns everywhere. Brand palette: **Kumouri Purple `#8e00ff`** (prim
   `legal/*.md` via Vite `?raw` (inlined at build — works in the Cloudflare adapter's prerender runtime,
   which can't load `node:fs`), render with `marked`, strip the internal `<!-- … -->` notes, and the Terms
   page substitutes the governing-law state (**Illinois**). Edit the `.md`, never the rendered HTML.
+- **Writing is a content collection.** `src/content.config.ts` defines the `writing` collection (glob
+  loader over `src/content/writing/*.md`; schema = title, description, date, tags). `/writing/` lists
+  and `/writing/[slug]/` renders — both prerendered, so the loader only ever runs in Node at build time.
+  **Markdown is canonical**: add a post by adding a `.md` file, never by hand-writing a page. Post bodies
+  start at `##` (the page renders `title` as the `<h1>`). Dates are bare `YYYY-MM-DD` and are formatted in
+  **UTC** (`src/lib/date.ts`) — a local-timezone format would render the day before.
 - **Hybrid rendering.** Every marketing page declares `export const prerender = true` so it stays static;
   routes under `src/pages/admin/**` omit it and run on the Worker. Keep new public pages prerendered.
 - **Admin auth gate.** `src/middleware.ts` gates `/admin/**`: in the deployed Worker it re-verifies the
@@ -68,5 +74,7 @@ Use those pronouns everywhere. Brand palette: **Kumouri Purple `#8e00ff`** (prim
 The `/admin` SSR section is **in progress** (the Margo dashboard) — auth via **Cloudflare Access (email
 OTP)**, a `margo-control` Cloudflare Worker + D1 control plane, and a local Claude Agent SDK runner. Full
 phasing + decisions live in
-[the admin roadmap plan](../../.claude/plans/we-contemplated-a-web-glistening-glacier.md). Blog with posts
-in **D1** is still deferred. (Zitadel is **not** used — that earlier plan is dead.)
+[the admin roadmap plan](../../.claude/plans/we-contemplated-a-web-glistening-glacier.md). The long-planned
+**D1-backed blog is superseded** by the file-based `writing` collection above — posts are Markdown in the
+repo, reviewed in a PR, and prerendered; revisit D1 only if posts ever need to be authored from `/admin`.
+(Zitadel is **not** used — that earlier plan is dead.)

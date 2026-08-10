@@ -1,0 +1,121 @@
+---
+export const prerender = true; // Static marketing page; only /admin/** is server-rendered.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GlitchHeading from '../../components/GlitchHeading.astro';
+import { formatPostDate, isoDate } from '../../lib/date';
+
+const posts = (await getCollection('writing')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<BaseLayout
+  title="Writing"
+  description="Essays and notes from Ceryce Armstrong on engineering, AI, and the principles she works by."
+>
+  <section class="writing">
+    <div class="container writing-inner">
+      <p class="eyebrow">// writing</p>
+      <GlitchHeading as="h1" text="Writing" />
+      <p class="lead">
+        Notes on engineering, AI, and the rules I've found worth keeping. Occasional by design — I
+        write one of these when something has earned a name.
+      </p>
+
+      <ul class="post-list">
+        {
+          posts.map((post) => (
+            <li class="card post-card">
+              <time class="post-date" datetime={isoDate(post.data.date)}>
+                {formatPostDate(post.data.date)}
+              </time>
+              <h2 class="post-title">
+                <a href={`/writing/${post.id}/`}>{post.data.title}</a>
+              </h2>
+              <p class="post-desc">{post.data.description}</p>
+              {post.data.tags.length > 0 && (
+                <ul class="tags">
+                  {post.data.tags.map((tag) => (
+                    <li>{tag}</li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .writing-inner {
+    max-width: var(--max-w-prose);
+  }
+
+  .lead {
+    margin-top: 1.25rem;
+  }
+
+  .post-list {
+    margin-top: 2.5rem;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .post-date {
+    font-family: var(--font-mono);
+    font-size: var(--fs-eyebrow);
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+  }
+
+  .post-title {
+    margin-top: 0.35rem;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+  }
+
+  /* The whole card reads as one target; the heading link carries the accessible name. */
+  .post-title a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .post-title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .post-card:hover .post-title a,
+  .post-title a:focus-visible {
+    color: var(--toxic-green);
+  }
+
+  .post-desc {
+    margin-top: 0.6rem;
+    color: var(--text-muted);
+  }
+
+  .tags {
+    margin-top: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.5rem;
+    list-style: none;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  .tags li {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+  }
+</style>

@@ -2,11 +2,13 @@
 const links = [
   { href: '/about/', label: 'About' },
   { href: '/portfolio/', label: 'Portfolio' },
+  { href: '/writing/', label: 'Writing' },
   { href: '/resume/', label: 'Résumé' },
 ];
 
 const path = Astro.url.pathname;
-const isActive = (href: string) => path === href || path === href.replace(/\/$/, '');
+// `startsWith` so a section with children (/writing/<slug>/) keeps its nav item lit.
+const isActive = (href: string) => path === href.replace(/\/$/, '') || path.startsWith(href);
 ---
 
 <header class="site-nav">
