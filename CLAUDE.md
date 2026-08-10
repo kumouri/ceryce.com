@@ -22,7 +22,10 @@ Use those pronouns everywhere. Brand palette: **Kumouri Purple `#8e00ff`** (prim
   and `/writing/[slug]/` renders — both prerendered, so the loader only ever runs in Node at build time.
   **Markdown is canonical**: add a post by adding a `.md` file, never by hand-writing a page. Post bodies
   start at `##` (the page renders `title` as the `<h1>`). Dates are bare `YYYY-MM-DD` and are formatted in
-  **UTC** (`src/lib/date.ts`) — a local-timezone format would render the day before.
+  **UTC** (`src/lib/date.ts`) — a local-timezone format would render the day before. `.prose`
+  (`src/styles/global.css`) styles headings, lists, code, blockquotes and **tables**; a results table is
+  mono/small and scrolls itself on narrow screens (`display: block` + `width: max-content`), because the
+  page sets `overflow-x: hidden` and would otherwise clip it.
 - **Hybrid rendering.** Every marketing page declares `export const prerender = true` so it stays static;
   routes under `src/pages/admin/**` omit it and run on the Worker. Keep new public pages prerendered.
 - **Admin auth gate.** `src/middleware.ts` gates `/admin/**`: in the deployed Worker it re-verifies the
