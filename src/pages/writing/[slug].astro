@@ -1,0 +1,102 @@
+---
+export const prerender = true; // Static marketing page; only /admin/** is server-rendered.
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GlitchHeading from '../../components/GlitchHeading.astro';
+import { formatPostDate, isoDate } from '../../lib/date';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('writing');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+// Astro infers Astro.props from getStaticPaths above — no Props interface needed.
+const { post } = Astro.props;
+// Markdown is canonical — the body is rendered from src/content/writing/*.md at build time.
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <section class="post">
+    <div class="container post-inner">
+      <p class="eyebrow">// writing</p>
+      <GlitchHeading as="h1" text={post.data.title} class="post-title" />
+
+      <div class="post-meta">
+        <time datetime={isoDate(post.data.date)}>{formatPostDate(post.data.date)}</time>
+        {
+          post.data.tags.length > 0 && (
+            <ul class="tags">
+              {post.data.tags.map((tag) => (
+                <li>{tag}</li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+
+      <p class="lead">{post.data.description}</p>
+
+      <article class="prose">
+        <Content />
+      </article>
+
+      <p class="post-back"><a href="/writing/">&larr; All writing</a></p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .post-inner {
+    max-width: var(--max-w-prose);
+  }
+
+  .post-title {
+    font-size: clamp(2.1rem, 6vw, 3.6rem);
+  }
+
+  .post-meta {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-eyebrow);
+    color: var(--text-dim);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.5rem;
+    list-style: none;
+    padding: 0;
+    font-size: 0.75rem;
+  }
+
+  .tags li {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+  }
+
+  .lead {
+    margin-top: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--kumouri-purple);
+  }
+
+  .prose {
+    margin-top: 2.5rem;
+  }
+
+  .post-back {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+</style>

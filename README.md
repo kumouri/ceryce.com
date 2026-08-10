@@ -1,6 +1,6 @@
 # ceryce.com
 
-Ceryce Armstrong's personal homepage — about, portfolio, résumé, and legal pages. Built with
+Ceryce Armstrong's personal homepage — about, portfolio, résumé, writing, and legal pages. Built with
 [Astro](https://astro.build/), styled as a neon-cyberpunk brand (see [BRAND.md](BRAND.md)), and deployed
 to Cloudflare.
 
@@ -27,7 +27,8 @@ Requires Node 18.20.8+, 20.3+, or 22+.
 
 | Path | What |
 | --- | --- |
-| `src/pages/` | One file per route: `index`, `about`, `portfolio`, `resume`, `privacy`, `terms` (all prerendered). |
+| `src/pages/` | One file per route: `index`, `about`, `portfolio`, `resume`, `privacy`, `terms`, `writing/` (all prerendered). |
+| `src/content/writing/` | **Canonical** long-form posts as Markdown; `src/content.config.ts` types them. |
 | `src/pages/admin/` | Server-rendered admin section (Margo dashboard) — gated by Cloudflare Access. |
 | `src/layouts/BaseLayout.astro` | Shared marketing shell — head, nav, footer, theme. |
 | `src/layouts/AdminLayout.astro` | Admin shell — own nav, `noindex`; never the public chrome. |
@@ -46,6 +47,10 @@ Requires Node 18.20.8+, 20.3+, or 22+.
   placeholders).
 - **Résumé** — edit the content constants in `src/pages/resume.astro` (transcribed from the 2026-06-30
   résumé PDF); the redacted `public/resume.pdf` is present and `hasPdf` is enabled.
+- **Writing** — add a Markdown file to `src/content/writing/`. The filename is the slug
+  (`ceryces-razor.md` → `/writing/ceryces-razor/`); frontmatter needs `title`, `description`, `date`
+  (`YYYY-MM-DD`), and optional `tags`. Start the body at `##` — the page renders `title` as the `<h1>`.
+  The index and the sitemap pick it up automatically.
 
 ## Deploy
 
@@ -58,8 +63,9 @@ See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) and [`wrangler.toml`]
 
 The **`/admin` section is in progress**: a dashboard to observe, approve, trigger, and tune **Margo**
 (Ceryce's chief-of-staff assistant). It runs as Astro SSR on Cloudflare, gated by **Cloudflare Access**,
-backed by a `margo-control` Worker + D1 control plane and a local Claude Agent SDK runner. A blog with
-posts in **D1** is still planned. Full phasing lives in the admin roadmap plan.
+backed by a `margo-control` Worker + D1 control plane and a local Claude Agent SDK runner. The blog that
+was once planned for **D1** now ships as the file-based [`/writing`](https://ceryce.com/writing/)
+collection instead. Full phasing lives in the admin roadmap plan.
 
 ---
 
