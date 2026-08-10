@@ -8,10 +8,10 @@ tags: ['thinking', 'debugging', 'ai']
 Occam's Razor says that of the competing explanations, you take the simplest one. I have an
 amendment.
 
-> The real reason is almost ALWAYS dumber. That's Ocham's Razor for ya.
+> The real reason is almost ALWAYS dumber. That's Occam's Razor for ya.
 
-That's what I typed, misspelling and all, at the moment I noticed I'd been leaning on it for years.
-So: **Ceryce's Razor.** Occam says pick the simplest. Mine says pick the _dumbest_.
+That's what I said at the moment I noticed I'd been leaning on it for years. So: **Ceryce's Razor.**
+Occam says pick the simplest. Mine says pick the _dumbest_.
 
 Those sound like the same rule. They aren't, and they come apart exactly where it matters.
 
