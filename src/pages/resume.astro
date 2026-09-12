@@ -5,12 +5,12 @@ import GlitchHeading from '../components/GlitchHeading.astro';
 import CredlyBadge from '../components/CredlyBadge.astro';
 
 /*
-  Résumé content. Synced from Ceryce's canonical résumé docx (2026-07-12). Home address
-  and phone number are intentionally omitted from this public page — contact is email +
-  LinkedIn + GitHub only. The downloadable PDF is the redacted render of the same docx.
+  Résumé content. Synced from Ceryce's canonical résumé markdown (2026-09-12). Home address,
+  phone number, and personal email are intentionally omitted from this public page — contact is
+  email + LinkedIn + GitHub only. The downloadable PDF is the redacted render of the same markdown.
 */
 const summary =
-  'AI-focused software architect with over a decade of full-stack engineering experience, now specializing in agentic systems, LLM-powered developer tooling, and spec-driven AI development pipelines that have measurably accelerated delivery by up to 4×. Adept at architecture design, overseeing implementations, mentoring teams, designing multi-agent AI orchestration, maintaining strong client relationships, and acquiring deep domain expertise — committed to translating emerging AI capabilities into reliable, production-grade systems that expand what one engineer can deliver.';
+  'AI-focused software architect with over a decade of full-stack engineering experience, now specializing in agentic systems, LLM-powered developer tooling, and spec-driven AI development pipelines that have measurably accelerated delivery by up to 3×. Adept in architecture design, overseeing implementations, mentoring teams, designing multi-agent AI orchestration, maintaining strong client relationships, and acquiring deep domain expertise. Committed to translating emerging AI capabilities into reliable, production-grade systems that expand what one engineer can deliver.';
 
 const links = [
   { label: 'GitHub', href: 'https://github.com/kumouri' },
@@ -28,36 +28,44 @@ type Role = {
 
 const experience: Role[] = [
   {
-    title: 'AI Engineer',
+    title: 'Lead Engineer / AI Engineer',
     org: 'InRhythm, O’Fallon, IL',
     period: 'Jan 2026 – Present',
-    env: 'Java 21 · Spring Boot · Spring Batch · Amazon EKS · GitHub Copilot',
+    env: 'Java 21 · Spring Boot · Spring Batch · Amazon EKS · Control-M · GitHub Copilot',
     points: [
-      'Designed and deployed a spec-driven-development AI pipeline that modernizes legacy Oracle PL/SQL batch jobs running on the database host into individually containerized Spring Batch jobs on EKS — accelerating delivery by ~4× (from one quarter per batch to one month per batch).',
-      'Generalized the pipeline to modernize a Struts/JSP legacy monolith into a modern Angular front end backed by domain-specific Spring Boot microservices, improving development time by ~2×.',
-      'Built a Reflexion-based memory system so the pipeline learns from its mistakes and adapts to each client’s patterns and architecture.',
+      'Designed and deployed a Spec Driven Development AI DLC pipeline to modernize legacy PL/SQL Oracle batch jobs running on the database host box to individual containerized Spring Batch jobs running in EKS. The legacy jobs were Control-M scheduled, and some remain so post-migration. This sped up development ~3× — a quarter per batch job down to a month.',
+      'Generalized the above pipeline to modernize a Struts-based JSP legacy monolithic webapp into a modern Angular front end backed by domain-specific Spring Boot microservices. This improved development times by ~2×.',
+      'Developed a reflexion memory system for the pipeline for it to learn from its mistakes and learn the client’s patterns and architecture better.',
+    ],
+  },
+  {
+    title: 'Founder',
+    org: 'KMO Solutions Foundry',
+    period: 'Apr 2025 – Jan 2026',
+    points: [
+      'Founded an independent web/hosting/integrations consultancy; designed and built its platform and portfolio, including an AI-native CRM, an AI call screener, and marketing/demo sites.',
     ],
   },
   {
     title: 'Senior Software Engineer',
     org: 'Bank of America, Chicago, IL',
     period: 'Apr 2024 – Apr 2025',
-    env: 'Java 17 · Spring Boot · DB2 · OpenShift · Kubernetes · Kafka · TDD',
+    env: 'Java 17 · Spring · Spring Boot · DB2 · OpenShift · Kubernetes · Git · TDD · Kafka',
     points: [
-      'Senior developer on a SAFe agile team of six (three onshore, three offshore).',
-      'Added REST endpoints to a microservice for managing ACH transfer limits, eliminating full application rebuilds to change them.',
-      'Hardened ACH fraud detection with circuit breakers and a Kafka store-and-forward pattern to preserve transactions during downtime.',
+      'Contributing senior developer on a SAFe agile team of six developers, three onshore and three offshore (in India).',
+      'Added new REST endpoints to a microservice for manipulating ACH transfer limits, vastly speeding up changes to them by eliminating the need for an entire application rebuild.',
+      'Added resiliency in ACH fraud detection by adding circuit breakers to save resources and using the store-and-forward pattern with Kafka to store the transactions that were unable to process during downtime.',
     ],
   },
   {
     title: 'Senior Software Engineer',
     org: 'PNC Bank, Chicago, IL',
     period: 'Mar 2023 – Apr 2024',
-    env: 'Java 11 → 21 · Spring Boot · Spring Data · MySQL · Docker · TDD',
+    env: 'Java 21 · Spring Boot · Spring Data · MySQL · Docker · Git · TDD',
     points: [
-      'Led a team of three modernizing a Java 11 Spring Boot microservice to Java 21 (Kafka + MySQL), bridging a new REST payment gateway with legacy batch applications.',
-      'Applied TDD and modern design patterns for a performant, extensible, fault-tolerant product.',
-      'Ensured DevOps compliance with CI/CD on internal RHEL OpenShift plus full monitoring and logging coverage.',
+      'Led a team of three building a greenfield Spring Boot middleware application in Java 21 that translated between legacy applications emitting batches and a new payment gateway accepting only REST calls, letting an entire fleet of legacy applications reach the new gateway without any of them being modernized.',
+      'Designed it to be reconfigured rather than rewritten: chunk collection (configurable thread count and per-thread chunk sizing), batch-processing rules, and send logic are each independently swappable through Spring IoC, so a new batch format or a different downstream gateway reuses the collection-and-forwarding core instead of reimplementing it.',
+      'Delivered under PNC DevOps standards — TDD, CI/CD on internal RHEL OpenShift, full monitoring/logging coverage.',
     ],
   },
   {
@@ -70,10 +78,10 @@ const experience: Role[] = [
     title: 'Senior Software Engineer',
     org: 'SuprTek, O’Fallon, IL',
     period: 'May 2018 – Aug 2022',
-    env: 'Java 17 · Spring · JavaScript · Node.js · React · MongoDB · TDD',
+    env: 'Java 17 · Spring · JavaScript · Node.js · React · MongoDB · Git · TDD',
     points: [
       'Led a team of eight converting a legacy, spreadsheet-driven logistics line of business as part of a full-scale USTRANSCOM application rebuild.',
-      'Designed the data, service, REST API, and messaging layers for the Coronet line of business (MongoDB, Java 17, Spring Boot, Kafka).',
+      'Designed the data, service, REST API, and messaging layers for the Coronet line of business using MongoDB, Java 17, Spring Boot, and Kafka, and participated in the design and implementation of Coronet’s React-based UI.',
       'Served as interim Product Owner for six months, leading client interactions and advocating for the client in team decisions.',
     ],
   },
@@ -81,32 +89,40 @@ const experience: Role[] = [
     title: 'Senior Software Engineer',
     org: 'DMI, Carmel, IN',
     period: 'Nov 2017 – Mar 2018',
-    env: 'Docker Enterprise · Red Hat Linux · Jenkins · Artifactory · TFS · Maven',
+    env: 'Docker Enterprise · Red Hat Linux · Bash · JSON · Artifactory · Jenkins · Microsoft Team Foundation Server · Maven · sed',
     points: [
-      "Managed the transition of Allison Transmission’s DevOps infrastructure from external DMI hosting to internal hosting.",
-      'Migrated Jenkins, Team Foundation Server, Artifactory, and Git servers using Docker.',
-      'Built a Docker image and Maven repositories, migrating existing artifacts into the new Artifactory server.',
+      'Managed the transition of Allison Transmission’s DevOps infrastructure from external DMI hosting to internal hosting.',
+      'Migrated Jenkins, Team Foundation Server, Artifactory, and Git to Docker, building an image per service and moving the existing Maven artifacts into the new Artifactory.',
     ],
   },
   {
     title: 'Healthcare Informaticist',
     org: 'BJC Healthcare, St. Louis, MO',
     period: 'Nov 2014 – Jul 2017',
-    env: 'Java 6/7/8 · Spring · Struts · JavaScript · jQuery · Sybase · DB2 · SQL Server · PostgreSQL · Python',
+    env: 'Java 6/7/8 · Spring · Struts · JavaScript · jQuery · Sybase · DB2 · SQL Server · PostgreSQL · Python · Linux · Bash · Git · CVS · Tomcat · MQ Series · Maven · Ant · Jira (administration and use)',
     points: [
-      "Led design and implementation of BJC’s CDC grant-funded software for antibiotic use and resistance reporting.",
+      'Led design and implementation of BJC’s CDC grant-funded software solution for antibiotic use and resistance reporting.',
       'Led conversion of major projects’ build infrastructure to Maven, mentoring six team members on its use.',
-      'Maintained and updated hospital-acquired-disease reporting infrastructure (Java, Spring, Struts, JavaScript, jQuery).',
-      'Interpreted CDC technical guides to implement new XML reports for CDC submission.',
+      'Maintained and updated hospital-acquired disease reporting infrastructure using Java (6, 7, & 8), Spring, Struts, JavaScript, and jQuery.',
+      'Interpreted CDC technical guides to update and implement new XML reports for CDC submission.',
+    ],
+  },
+  {
+    title: 'Software Associate',
+    org: 'National Information Solutions Cooperative, St. Louis, MO',
+    period: 'Jun 2014 – Nov 2014',
+    env: 'Java 5 → 8 · Swing · JDBC · SQL · Oracle Database',
+    points: [
+      'Supported the CIS and Cash Register Java applications, focused on adding new UI pages to Cash Register.',
+      'Improved the performance of a SQL query by over 1,000× in relevant edge cases.',
     ],
   },
 ];
 
 const skillGroups = [
-  { label: 'Languages', items: ['Java (6–24)', 'Lua', 'C#', 'C++', 'JavaScript', 'Python', 'Bash', 'PowerShell', 'Lisp'] },
-  { label: 'Frameworks', items: ['Spring', 'Spring Boot', 'Spring Data', 'JUnit', 'Mockito', 'React', 'Node.js', 'jQuery'] },
+  { label: 'Languages', items: ['Java (6–21)', 'Lua', 'C#', 'C++', 'JavaScript', 'Python', 'Bash', 'PowerShell', 'Lisp'] },
+  { label: 'Frameworks', items: ['Spring', 'Spring Boot', 'Spring Data', 'JUnit', 'Mockito', 'Node.js'] },
   { label: 'Databases', items: ['MySQL', 'PostgreSQL', 'MongoDB', 'MSSQL', 'Oracle', 'DB2', 'Hibernate'] },
-  { label: 'Design', items: ['Microservices', 'TDD', 'REST', 'Architecture'] },
   {
     label: 'AI tooling',
     items: [
@@ -114,22 +130,39 @@ const skillGroups = [
       'Claude Agent SDK (Py & TS)',
       'GitHub Copilot',
       'Cursor',
+      'Prompt engineering',
       'Agentic orchestration',
       'Subagent design',
       'Spec-driven development',
       'Skill & hook dev',
       'MCP servers',
-      'Prompt engineering',
     ],
   },
-  { label: 'Ops & other', items: ['Docker', 'Kafka', 'OpenShift', 'OAuth2', 'IBM MQ', 'Tomcat', 'Caddy', 'Gradle', 'Maven', 'Ant', 'Linux admin'] },
+  { label: 'Ops & other', items: ['Docker', 'Tomcat', 'Caddy', 'Linux', 'Gradle', 'Maven', 'Ant', 'OAuth2', 'Kubernetes', 'OpenShift', 'Kafka', 'IBM MQ'] },
 ];
 
 // Compact mirror of the résumé's projects; full write-ups live on /portfolio.
 const projects = [
-  ['Margo — agentic chief-of-staff', 'A persistent AI orchestrator that loads subagents just-in-time and runs local-first proactive loops to screen calls, texts, and email.'],
-  ['Spec-driven AI development pipeline', 'A self-verifying, spec-first engineering pipeline with a durable task-graph runtime, typed contracts, and a dedicated verification gate.'],
-  ['AI-native CRM & call screener', 'A solo-built multi-tenant platform with an AI intake pipeline, plus a real-time telephony screener wired to an LLM persona.'],
+  [
+    'Demiurge — meta-agent lifecycle system',
+    'A Thrallherd-pattern meta-agent that mints, specifies, deploys, and curates a roster of specialized, long-running “Archon” agents — owning the full spec → eval-gated admission → delegation → tenure/retirement loop. Archons run as subscription-billed CLI services behind an A2A/MCP interface; the first production Archon autonomously fetches and scores job postings, researches companies, and tailors application materials under a draft-and-hold approval gate.',
+  ],
+  [
+    'Margo — agentic chief-of-staff',
+    'A persistent, local-first AI orchestrator: purpose-built subagents loaded just-in-time, proactive loops that screen calls, texts, and email and manage daily scheduling, and an “act-low / ask-high” gate that drafts-and-holds anything outbound. Observability — append-only per-turn telemetry (verbatim turns, tool calls, tokens/cost/latency) joined on one turn id and stamped with the vendor CLI version, which attributed a 40% latency / 45% cost drop across 3,000 turns to a Claude Code upgrade, not an internal change, in twenty minutes, no A/B. Security — no secret enters argv, logs, or the agent transcript: Worker secrets piped to wrangler over stdin (9 tests, one asserting the value appears nowhere in output), and a recipient-class ledger at all 6 outbound send sites that logs who was reached, never the address (51 tests). Governance — merge approvals single-use, bound to one head SHA, 24 h expiry, enforced by a fail-closed pre-tool hook; 58 owner rulings in a CI-checked ledger, 28 enforced in code; 6 blocking CI policy checks.',
+  ],
+  [
+    'Spec-driven AI development pipeline',
+    'A self-verifying, spec-first engineering pipeline with a durable task-graph runtime and typed contracts, using a dedicated verification gate so the agent doing the work never grades its own output — plus a reusable suite of 7 Claude Code skills, including context-loaders and crash recovery, to make multi-agent engineering repeatable.',
+  ],
+  [
+    'AI-native CRM & call screener',
+    'A multi-tenant customer-engagement platform — architecture, data model, and specifications mine, implementation directed through coding agents rather than hand-written — with an AI intake pipeline that screens live calls through an LLM persona that reads caller intent, transcribes voicemails into structured leads, triages submitted photos, and drafts review replies.',
+  ],
+  [
+    'Distributed agent fleet & commodity-market automation',
+    'A distributed control plane for a large fleet of autonomous client agents — a Java/Spring/PostgreSQL server tracking and commanding Lua-scripted clients in real time, plus a monitoring and command-and-control web app for fleet-wide visibility and operator intervention — and an automated commodity-market trading system that priced and executed trades across a large-scale virtual economy, with a 1,700+ function reference manual and instructional video series to onboard other operators.',
+  ],
 ];
 
 // Redacted PDF (no address/phone/email) lives at /public/resume.pdf.

@@ -41,9 +41,12 @@ Use those pronouns everywhere. Brand palette: **Kumouri Purple `#8e00ff`** (prim
 - **Brand contrast rule:** Toxic Green carries body text on the dark base; Kumouri Purple is for large
   text, borders, fills, and glow only (it fails small-text contrast). All motion is gated behind
   `prefers-reduced-motion`. See [BRAND.md](BRAND.md).
-- **Portfolio + Résumé carry real content** (filled 2026-06-30 from Ceryce's résumé PDF; redacted
-  `public/resume.pdf` is live). Keep them factual — don't fabricate work history, don't add metrics that
-  aren't defensible, and don't auto-publish her private repos. Home address and phone stay off the site.
+- **Portfolio + Résumé carry real content.** `src/pages/resume.astro`'s data arrays mirror Ceryce's
+  canonical résumé markdown (`margo/state/resume/resume.md`; last synced 2026-09-12) and
+  `public/resume.pdf` is the redacted render of the same source — resync both together when the résumé
+  changes. Keep them factual — don't fabricate work history, don't add metrics that aren't defensible,
+  and don't auto-publish her private repos. Home address, phone, and personal email stay off the site
+  (contact is `contact@ceryce.com` only).
 - **About carries the professional narrative** — the through-line ("I find a cost I keep paying by hand,
   then build the thing that absorbs it"), the four `moves`, and the `values` cards. Two hard constraints:
   the four moves are told **abstracted** — the game is not named and the specifics of how capacity was
