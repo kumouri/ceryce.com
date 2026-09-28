@@ -82,6 +82,16 @@ const shipped: Project[] = [
 // AI architecture & method — the systems and tooling behind the speed.
 const aiWork: Project[] = [
   {
+    title: 'Evaluation — how I test whether an agent actually got better',
+    category: 'Evaluation methodology',
+    metric: 'Pre-registered · blind A/B',
+    blurb:
+      "The harder half of building an agentic assistant turned out to be evaluation, not the assistant. Pre-registered predictions scored against their own falsifiers, blind A/Bs judged by a human oracle, shadow-mode rollouts before any behavior changes, and a running audit of every fix that was ever supposed to work and didn't. Six methods, applied for real, written up on their own.",
+    tags: ['Evaluation design', 'Pre-registration', 'A/B testing', 'Measurement'],
+    links: [{ label: 'Read more', href: '/evaluation/' }],
+    featured: true,
+  },
+  {
     title: 'Margo — an agentic chief-of-staff',
     category: 'Agentic system',
     metric: 'Live · daily',
