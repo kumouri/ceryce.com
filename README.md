@@ -27,7 +27,7 @@ Requires Node 18.20.8+, 20.3+, or 22+.
 
 | Path | What |
 | --- | --- |
-| `src/pages/` | One file per route: `index`, `about`, `portfolio`, `resume`, `privacy`, `terms`, `writing/` (all prerendered). |
+| `src/pages/` | One file per route: `index`, `about`, `portfolio`, `evaluation`, `resume`, `privacy`, `terms`, `writing/` (all prerendered). |
 | `src/content/writing/` | **Canonical** long-form posts as Markdown; `src/content.config.ts` types them. |
 | `src/pages/admin/` | Server-rendered admin section (Margo dashboard) — gated by Cloudflare Access. |
 | `src/layouts/BaseLayout.astro` | Shared marketing shell — head, nav, footer, theme. |
@@ -45,6 +45,8 @@ Requires Node 18.20.8+, 20.3+, or 22+.
   are deliberately told without naming the game they happened in — see [CLAUDE.md](CLAUDE.md).
 - **Portfolio** — edit the project entries in `src/pages/portfolio.astro` (content is live, no longer
   placeholders).
+- **Evaluation** — the methodology page at `src/pages/evaluation.astro`; edit the `principles` and
+  `experiments` arrays there.
 - **Résumé** — edit the content constants in `src/pages/resume.astro` (transcribed from the 2026-06-30
   résumé PDF); the redacted `public/resume.pdf` is present and `hasPdf` is enabled.
 - **Writing** — add a Markdown file to `src/content/writing/`. The filename is the slug

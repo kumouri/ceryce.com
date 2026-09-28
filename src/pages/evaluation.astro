@@ -1,0 +1,236 @@
+---
+export const prerender = true; // Static marketing page; only /admin/** is server-rendered.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GlitchHeading from '../components/GlitchHeading.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const principles = [
+  [
+    'Baselines before optimizing',
+    "I measure what a system does with nothing added before I credit whatever I add next. Skip the baseline and every improvement is a story you tell yourself.",
+  ],
+  [
+    'Shadow mode before any behavior changes',
+    'A new decision-maker runs alongside the old one first — classifying, logging, changing nothing — until its accuracy is evidence and not a hope. Flipping it on is a separate, later decision.',
+  ],
+  [
+    'Blind A/Bs over self-graded ones',
+    "If the thing being evaluated can also grade its own homework, the grade is worthless. The judgment has to come from somewhere that doesn't already know the answer it wants.",
+  ],
+  [
+    'Pre-register the kill condition',
+    'I write down what result would prove me wrong before I collect a single data point. A prediction with no way to fail is not a prediction — it is a hope wearing a lab coat.',
+  ],
+  [
+    'Watch for metric traps',
+    "A per-unit efficiency number can get worse while the whole system gets better — more checking, more overhead, more looking things up — and the number that matters is the outcome, not the proxy that's cheapest to watch.",
+  ],
+  [
+    'Measurement that holds up',
+    "A finding that only survives inside the document that produced it isn't a finding. I try to leave a re-runnable check behind, not just a paragraph that sounded right at the time.",
+  ],
+];
+
+const experiments = [
+  {
+    title: 'Measuring confidently wrong claims',
+    category: 'Hallucination measurement',
+    metric: '54 artifacts · 0 clean',
+    blurb:
+      "An agent I run stated assumptions in the exact same confident register as things it had actually verified — same voice, wildly different provenance. Instead of writing another rule telling it to be careful, I built a measurement layer first: tag every reply with what was actually consulted, then audit every fix ever proposed for this failure across the project's history. Fifty-four written countermeasures, seventeen with a documented later recurrence, zero with an evidenced clean record. The fix that survived wasn't a better sentence — it was a disclosure derived mechanically from what a turn actually did, because a self-reported \"I checked X\" is just another unverified claim wearing a badge.",
+    tags: ['Measurement design', 'Instrumentation', 'Root-cause analysis'],
+    featured: true,
+  },
+  {
+    title: 'Constitution vs. recall, scored head to head',
+    category: 'Long-horizon agent evaluation',
+    metric: '3 arms · 1 simulation',
+    blurb:
+      "Does an externally-authored identity — a tracked charter with rails and its own eval suite — hold an agent together over a long horizon better than giving it a better memory? I reimplemented a published long-horizon business simulation from its own paper (the vendor never released a runnable harness), then ran three arms on the identical sim and seed: a bare baseline, the baseline plus a real memory system, and the baseline running under a versioned charter re-read from disk every turn. The baseline came first on purpose — you can't credit a constitution with anything if you never measured what the model does without one.",
+    tags: ['Benchmark reimplementation', 'A/B/C design', 'Long-horizon coherence'],
+    featured: true,
+  },
+  {
+    title: "Pre-registering a prediction, then scoring it",
+    category: 'Behavioral persistence study',
+    metric: '~21-session campaign',
+    blurb:
+      'Does a rule survive across a long conversation because it was stated once, or because a reminder of it stays near the model at every turn? I wrote the exact numbers that would confirm the hypothesis and the exact numbers that would kill it, before running a single session — then ran a campaign of roughly twenty-one sessions to test it for real. Both pre-registered falsifiers were checked directly, and neither one fired. Writing the failure condition down first is the only thing that makes a later "we confirmed it" worth trusting.',
+    tags: ['Pre-registration', 'Causal design', 'Statistical scoring'],
+    featured: true,
+  },
+  {
+    title: "What's safe to forget, tested against a human, blind",
+    category: 'Memory evaluation',
+    metric: 'Blind A/B · human oracle',
+    blurb:
+      "Any system that decides what to keep and what to let go needs a way to find out if it decided right. On a sampled recall, the agent answers twice — once with a retrieved memory, once without — and I pick the better one blind, without being told which is which, and say why. That verdict is the ground truth the cheap signals (access counts, sentiment proxies) get calibrated against, never the other way around.",
+    tags: ['Ablation testing', 'Human-in-the-loop', 'Calibration'],
+  },
+  {
+    title: 'Shadow mode before any behavior changes',
+    category: 'Deployment methodology',
+    metric: 'Log-only · zero branching',
+    blurb:
+      "Before a lightweight classifier gets to decide anything on its own, it runs in shadow: it scores every message, writes its verdict to a log, and the full system keeps running exactly as it did before — no branch, no shortcut taken on its say-so. Turning it from an observer into a decision-maker is a separate, later call made on the accuracy evidence the shadow run produced, not on how good the design looked on paper.",
+    tags: ['Progressive rollout', 'Local inference', 'Risk gating'],
+  },
+  {
+    title: 'Every specialist earns admission the same way',
+    category: 'Agent evaluation gates',
+    metric: '7/7 admission gates',
+    blurb:
+      "Each purpose-built subagent clears the same fixed battery of regression evals before it's trusted with anything live — a full pass, not a spot check, and not a person's judgment call overriding a failed gate. New capability doesn't get a pass because it seems fine; it clears exactly what the last one had to clear.",
+    tags: ['Regression testing', 'Admission gates', 'Agent governance'],
+  },
+];
+---
+
+<BaseLayout
+  title="Evaluation"
+  description="How Ceryce Armstrong evaluates agentic AI systems — pre-registered predictions, blind A/Bs, shadow-mode rollouts, and measurement designed to survive being wrong."
+>
+  <section class="eval-hero">
+    <div class="container">
+      <p class="eyebrow">// evaluation methodology</p>
+      <GlitchHeading as="h1" text="Evaluation" />
+      <p class="lead eval-lead">
+        For months I've been building an agentic assistant for my own use, and the harder half of that
+        work turned out to be evaluation — figuring out whether a change actually made the thing better,
+        rather than just feeling like it did. This page is that half, on its own.
+      </p>
+    </div>
+  </section>
+
+  <section class="eval-section">
+    <div class="container eval-inner">
+      <p class="eyebrow">// why this, not vibes</p>
+      <h2>An agent will tell you it's fine. That's not evidence.</h2>
+      <p>
+        Every agentic system I've built has an opinion about how well it's working, and that opinion is
+        cheap to produce and easy to believe — it's confident, it's articulate, and it's occasionally
+        wrong in ways that are expensive to catch late. So the actual engineering problem, underneath
+        whatever the system is nominally for, is building measurement that doesn't trust the system to
+        grade itself: a baseline before a change, a prediction registered before a result, a judgment
+        that comes from somewhere blind to what answer it's "supposed" to give.
+      </p>
+      <p>
+        None of what follows is a research paper. It's the methodology I built and used because I
+        needed to actually know — not guess, not vibe-check, know — whether a design decision held up.
+      </p>
+    </div>
+  </section>
+
+  <section class="eval-section">
+    <div class="container">
+      <p class="eyebrow">// the throughline</p>
+      <h2>Six rules I hold myself to</h2>
+      <ul class="principles-grid">
+        {
+          principles.map(([title, body]) => (
+            <li class="card principle-card">
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="eval-section">
+    <div class="container">
+      <p class="eyebrow">// the work</p>
+      <h2>Six evaluations, applied</h2>
+      <div class="eval-grid">
+        {experiments.map((e) => <ProjectCard {...e} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="eval-section eval-close">
+    <div class="container eval-inner">
+      <p class="eyebrow">// so what</p>
+      <h2>The point was never the assistant</h2>
+      <p>
+        Every one of these started as a question about one system, and every one of them generalizes:
+        how do you know a change to an agent's behavior actually worked, rather than just changed?
+        Pre-register the prediction. Hold something back as a baseline. Get a blind verdict when you
+        can. Ship in shadow before you ship for real. And when a metric starts looking better, check
+        whether the thing it's supposed to be standing in for actually got better too — because it
+        often hasn't.
+      </p>
+      <p>
+        More on the assistant these evaluations were built around is on my <a href="/portfolio/">portfolio</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .eval-hero {
+    padding-block: clamp(3.5rem, 9vw, 6rem) 0;
+  }
+
+  .eval-lead {
+    margin-top: 1.25rem;
+  }
+
+  .eval-inner {
+    max-width: var(--max-w-prose);
+  }
+
+  .eval-inner p {
+    color: var(--text-muted);
+    margin-top: 1.1rem;
+  }
+
+  .eval-inner h2 {
+    margin-top: 0.4rem;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+  }
+
+  .eval-section {
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .eval-section h2 {
+    margin-top: 0.4rem;
+  }
+
+  .principles-grid {
+    margin-top: 2rem;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.25rem;
+  }
+
+  .principle-card h3 {
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    font-size: 1.05rem;
+  }
+
+  .principle-card p {
+    color: var(--text-muted);
+    font-size: 0.975rem;
+  }
+
+  .eval-grid {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .eval-close {
+    border-top: 1px solid var(--border);
+  }
+
+  .eval-close a {
+    color: var(--toxic-green);
+  }
+</style>
