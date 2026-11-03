@@ -13,7 +13,7 @@ Use those pronouns everywhere. Brand palette: **Kumouri Purple `#8e00ff`** (prim
 
 ## Operational facts
 
-- **Legal pages render from Markdown.** `src/pages/privacy.astro` + `terms.astro` import the canonical
+- **Legal pages render from Markdown.** `src/pages/privacy.astro`, `terms.astro` + `sms.astro` import the canonical
   `legal/*.md` via Vite `?raw` (inlined at build — works in the Cloudflare adapter's prerender runtime,
   which can't load `node:fs`), render with `marked`, strip the internal `<!-- … -->` notes, and the Terms
   page substitutes the governing-law state (**Illinois**). Edit the `.md`, never the rendered HTML.

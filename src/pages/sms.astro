@@ -1,0 +1,164 @@
+---
+export const prerender = true; // Static marketing page, rendered from /legal at build time.
+import { marked } from 'marked';
+import BaseLayout from '../layouts/BaseLayout.astro';
+// Canonical source of truth lives in /legal — render HTML from it, never hand-edit HTML.
+// Imported with Vite's `?raw` so the markdown is inlined at build time (no node:fs,
+// which the Cloudflare adapter's prerender runtime can't load).
+import source from '../../legal/sms-program.md?raw';
+
+// Strip the leading internal-notes HTML comment, then split at the marker where the
+// opt-in figure goes (between "How the owner opts in" and "Consent language").
+const cleaned = source.replace(/^\s*<!--[\s\S]*?-->\s*/, '');
+const [before, after = ''] = cleaned.split('<!-- opt-in-figure -->');
+const render = (md: string) => marked.parse(md, { async: false }) as string;
+
+// Screenshot of the owner-only settings step, as a /public path (e.g. '/sms-opt-in.png').
+// Until it exists, the figure shows a clearly labeled placeholder for that step.
+const optInScreenshot: string | undefined = undefined;
+const optInConfirmation =
+  "Margo (KMO Solutions Foundry LLC): You're subscribed to owner alerts & reminders. Msg frequency varies. Msg & data rates may apply. Reply HELP for help, STOP to cancel.";
+---
+
+<BaseLayout
+  title="Margo SMS notifications"
+  description="Margo SMS notifications, operated by KMO Solutions Foundry LLC: owner-only opt-in, consent language, message types, frequency, and STOP/HELP."
+>
+  <section class="legal">
+    <div class="container">
+      <article class="prose">
+        <Fragment set:html={render(before)} />
+
+        <figure class="opt-in">
+          <div class="opt-in-steps">
+            <div class="opt-in-step">
+              <p class="step-label">Step 1 · owner-only settings</p>
+              {
+                optInScreenshot ? (
+                  <img
+                    src={optInScreenshot}
+                    alt="Margo's private settings, with the owner's own mobile number saved as the sole SMS recipient."
+                  />
+                ) : (
+                  <div class="placeholder" role="img" aria-label="Placeholder for the settings screenshot">
+                    <span>[ screenshot pending ]</span>
+                    <span>Owner's mobile saved as the sole SMS recipient</span>
+                  </div>
+                )
+              }
+            </div>
+
+            <div class="opt-in-step">
+              <p class="step-label">Step 2 · text START to (618) 726-8723</p>
+              <ol class="thread" aria-label="Text thread with the Margo number">
+                <li class="bubble out"><span class="who">Owner</span>START</li>
+                <li class="bubble in"><span class="who">Margo</span>{optInConfirmation}</li>
+              </ol>
+            </div>
+          </div>
+          <figcaption>
+            The two opt-in steps. Only the account owner can complete them — there is no public sign-up.
+          </figcaption>
+        </figure>
+
+        <Fragment set:html={render(after)} />
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal {
+    padding-block: clamp(3rem, 8vw, 5rem);
+  }
+
+  .opt-in {
+    margin: 0 0 1.6em;
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: var(--radius-lg);
+  }
+
+  .opt-in-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.25rem;
+  }
+
+  .step-label {
+    margin-bottom: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-eyebrow);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--toxic-green);
+  }
+
+  .opt-in img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .placeholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 9rem;
+    padding: 1rem;
+    border: 1px dashed var(--border-bright);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-align: center;
+    color: var(--text-muted);
+  }
+
+  .thread {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .bubble {
+    max-width: 90%;
+    margin: 0;
+    padding: 0.55rem 0.8rem;
+    border-radius: var(--radius-lg);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text);
+    background: var(--surface-2);
+  }
+
+  .bubble.out {
+    align-self: flex-end;
+    border: 1px solid var(--kumouri-purple);
+    font-family: var(--font-mono);
+  }
+
+  .bubble.in {
+    align-self: flex-start;
+    border: 1px solid color-mix(in srgb, var(--toxic-green) 45%, transparent);
+  }
+
+  .who {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  figcaption {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+</style>
