@@ -27,20 +27,23 @@ Requires Node 18.20.8+, 20.3+, or 22+.
 
 | Path | What |
 | --- | --- |
-| `src/pages/` | One file per route: `index`, `about`, `portfolio`, `evaluation`, `resume`, `privacy`, `terms`, `writing/` (all prerendered). |
+| `src/pages/` | One file per route: `index`, `about`, `portfolio`, `evaluation`, `resume`, `privacy`, `terms`, `sms`, `writing/` (all prerendered). |
 | `src/content/writing/` | **Canonical** long-form posts as Markdown; `src/content.config.ts` types them. |
 | `src/pages/admin/` | Server-rendered admin section (Margo dashboard) — gated by Cloudflare Access. |
 | `src/layouts/BaseLayout.astro` | Shared marketing shell — head, nav, footer, theme. |
 | `src/layouts/AdminLayout.astro` | Admin shell — own nav, `noindex`; never the public chrome. |
 | `src/components/` | `Nav`, `Footer`, `GlitchHeading`, `ProjectCard`. |
 | `src/styles/` | `tokens.css` (brand variables) + `global.css`. |
-| `legal/` | **Canonical** Privacy + Terms Markdown. The pages render HTML from these — never hand-edit HTML. |
+| `legal/` | **Canonical** Privacy, Terms + SMS-program Markdown. The pages render HTML from these — never hand-edit HTML. |
 | `public/` | Favicon, OG image, redacted `resume.pdf`. |
 
 ## Editing content
 
-- **Legal** — edit `legal/privacy-policy.md` / `legal/terms-and-conditions.md`. The site renders them at
-  build time (the `terms` page substitutes the Illinois governing-law state and strips internal notes).
+- **Legal** — edit `legal/privacy-policy.md` / `legal/terms-and-conditions.md` / `legal/sms-program.md`.
+  The site renders them at build time (stripping internal notes; the `terms` page substitutes the Illinois
+  governing-law state). `/sms` is the public opt-in page for Margo's owner-only texts; `src/pages/sms.astro`
+  inserts the opt-in figure at the `opt-in-figure` marker — set `optInScreenshot` there once a screenshot
+  is in `public/`. Keep all three consistent with the SMS campaign registration.
 - **About** — the narrative and the `moves` / `values` arrays in `src/pages/about.astro`. The four "moves"
   are deliberately told without naming the game they happened in — see [CLAUDE.md](CLAUDE.md).
 - **Portfolio** — edit the project entries in `src/pages/portfolio.astro` (content is live, no longer
