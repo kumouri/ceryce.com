@@ -42,8 +42,9 @@ Requires Node 18.20.8+, 20.3+, or 22+.
 - **Legal** — edit `legal/privacy-policy.md` / `legal/terms-and-conditions.md` / `legal/sms-program.md`.
   The site renders them at build time (stripping internal notes; the `terms` page substitutes the Illinois
   governing-law state). `/sms` is the public opt-in page for Margo's owner-only texts; `src/pages/sms.astro`
-  inserts the opt-in figure at the `opt-in-figure` marker — set `optInScreenshot` there once a screenshot
-  is in `public/`. Keep all three consistent with the SMS campaign registration.
+  inserts the opt-in illustration at the `opt-in-figure` marker. That image (`/sms-opt-in.svg`) is built by
+  `src/lib/smsOptInSvg.ts` from the confirmation reply in the Markdown, so editing the `.md` updates both.
+  Keep all three consistent with the SMS campaign registration.
 - **About** — the narrative and the `moves` / `values` arrays in `src/pages/about.astro`. The four "moves"
   are deliberately told without naming the game they happened in — see [CLAUDE.md](CLAUDE.md).
 - **Portfolio** — edit the project entries in `src/pages/portfolio.astro` (content is live, no longer
