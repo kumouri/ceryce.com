@@ -3,7 +3,8 @@
   A2P NOTE: this is the publicly verifiable Call to Action for the Margo 10DLC campaign. The consent
   language, opt-in steps, keywords, and auto-replies must match the campaign registration word for word.
   Sample messages here are deliberately neutral — never paste real reminders or anything private.
-  The `opt-in-figure` marker below is where src/pages/sms.astro inserts the opt-in screenshot figure.
+  The `opt-in-figure` marker below is where src/pages/sms.astro inserts the opt-in illustration
+  (/sms-opt-in.svg, generated at build — its reply bubble quotes the confirmation reply below verbatim).
 -->
 
 # Margo SMS notifications
