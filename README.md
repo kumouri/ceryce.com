@@ -50,7 +50,8 @@ Requires Node 18.20.8+, 20.3+, or 22+.
 - **Portfolio** — edit the project entries in `src/pages/portfolio.astro` (content is live, no longer
   placeholders).
 - **Evaluation** — the methodology page at `src/pages/evaluation.astro`; edit the `principles` and
-  `experiments` arrays there.
+  `experiments` arrays there. Its "the write-up" section links the featured long-form eval write-up,
+  which lives in the writing collection like any other post.
 - **Résumé** — edit the content constants in `src/pages/resume.astro` (transcribed from the 2026-06-30
   résumé PDF); the redacted `public/resume.pdf` is present and `hasPdf` is enabled.
 - **Writing** — add a Markdown file to `src/content/writing/`. The filename is the slug
